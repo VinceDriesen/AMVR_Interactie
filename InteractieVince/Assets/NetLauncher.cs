@@ -1,21 +1,35 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // Deze is nodig voor XR controls
+using UnityEngine.InputSystem;
 
 public class NetLauncher : MonoBehaviour
 {
     [Header("Wat spawnen we?")]
     public GameObject netPrefab;
-    public Transform spawnPoint; // Sleep hier bijv. je 'RightHand Controller' in
+    public Transform spawnPoint;
 
     [Header("Welke knop?")]
-    // Dit maakt een mooi vakje in de inspector
     public InputActionProperty spawnButton; 
+
+    // --- VOEG DIT TOE ---
+    // Zodra dit object actief wordt, zet de 'oren' open voor de knop
+    private void OnEnable()
+    {
+        spawnButton.action.Enable();
+    }
+
+    // Zodra dit object uit gaat, stop met luisteren (voorkomt errors)
+    private void OnDisable()
+    {
+        spawnButton.action.Disable();
+    }
+    // --------------------
 
     void Update()
     {
-        // Checken of de actie (knop) ingedrukt wordt in dit frame
+        // De check blijft hetzelfde
         if (spawnButton.action != null && spawnButton.action.WasPressedThisFrame())
         {
+            Debug.Log("clicked");
             SpawnNet();
         }
     }
@@ -24,12 +38,8 @@ public class NetLauncher : MonoBehaviour
     {
         if (netPrefab != null)
         {
-            // Gebruik positie van de hand/spawnpoint, of 0,0,0 als die leeg is
             Vector3 pos = (spawnPoint != null) ? spawnPoint.position : Vector3.zero;
-            
-            // Spawn met rotatie van de hand (of identity als je hem recht wilt houden)
             Quaternion rot = (spawnPoint != null) ? spawnPoint.rotation : Quaternion.identity;
-
             Instantiate(netPrefab, pos, rot);
             Debug.Log("XR Spawn!");
         }
