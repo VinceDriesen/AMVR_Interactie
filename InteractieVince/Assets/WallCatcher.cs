@@ -2,23 +2,46 @@ using UnityEngine;
 
 public class WallCatcher : MonoBehaviour
 {
-    // Wat gebeurt er als iets door de muur vliegt?
+    [Header("Instellingen")]
+    public float lifeTime = 1.0f; // Zet deze op 1 seconde zoals gevraagd
+
+    private BoxCollider myCollider;
+
+    void Start()
+    {
+        myCollider = GetComponent<BoxCollider>();
+        // Vernietig de muur na 1 seconde
+        Destroy(gameObject, lifeTime);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        // Check of het object dat ons raakt wel een 'Target' is
         if (other.CompareTag("Target"))
         {
-            Debug.Log("GEVANGEN: " + other.name);
+            // --- DE WISKUNDE ---
+            // We moeten de 3D botsing omzetten naar een 2D percentage (0.0 tot 1.0)
             
-            // --- VISUELE FEEDBACK ---
-            // Voor nu maken we hem groen om te testen
-            other.GetComponent<Renderer>().material.color = Color.green;
+            // 1. Waar is het object t.o.v. het centrum van de muur?
+            Vector3 localHitPoint = transform.InverseTransformPoint(other.transform.position);
 
-            // --- AUDIO / HAPTICS ---
-            // Hier speel je straks je geluidje af en laat je de controller trillen
-            
-            // --- LOGICA ---
-            // Hier zou je het object aan de 'geselecteerde lijst' toevoegen
+            // 2. Hoe groot is de muur (halve grootte)?
+            Vector3 halfSize = myCollider.size / 2f;
+
+            // 3. Bereken percentage. 
+            // localHitPoint.x loopt van -halfSize tot +halfSize.
+            // We tellen halfSize erbij op, en delen door de totale grootte.
+            // Resultaat: 0 is linkerkant, 1 is rechterkant.
+            float relativeX = (localHitPoint.x + halfSize.x) / myCollider.size.x;
+            float relativeY = (localHitPoint.y + halfSize.y) / myCollider.size.y;
+
+            // --- STUUR NAAR UI ---
+            Debug.Log($"Hit op: X={relativeX:P0}, Y={relativeY:P0}");
+
+            if (UIWallManager.Instance != null)
+            {
+                // Stuur de coördinaten én de bal zelf naar de UI manager
+                UIWallManager.Instance.RegisterHitOnUI(relativeX, relativeY, other.gameObject);
+            }
         }
     }
 }
