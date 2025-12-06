@@ -3,14 +3,22 @@ using UnityEngine;
 public class WallCatcher : MonoBehaviour
 {
     [Header("Instellingen")]
-    public float lifeTime = 1.0f; // Zet deze op 1 seconde zoals gevraagd
+    public float lifeTime = 2.0f;
 
-    private BoxCollider myCollider;
+    [Header("Welke kant is 'Breedte' en 'Hoogte'?")]
+    // Omdat je Y en Z hebt geschaald, is waarschijnlijk:
+    // Width Axis = Z (of Y)
+    // Height Axis = Y (of Z)
+    public Axis widthAxis = Axis.Z; 
+    public Axis heightAxis = Axis.Y;
+
+    public enum Axis { X, Y, Z }
+
+    private BoxCollider myCol;
 
     void Start()
     {
-        myCollider = GetComponent<BoxCollider>();
-        // Vernietig de muur na 1 seconde
+        myCol = GetComponent<BoxCollider>();
         Destroy(gameObject, lifeTime);
     }
 
@@ -18,30 +26,43 @@ public class WallCatcher : MonoBehaviour
     {
         if (other.CompareTag("Target"))
         {
-            // --- DE WISKUNDE ---
-            // We moeten de 3D botsing omzetten naar een 2D percentage (0.0 tot 1.0)
-            
-            // 1. Waar is het object t.o.v. het centrum van de muur?
-            Vector3 localHitPoint = transform.InverseTransformPoint(other.transform.position);
+            // 1. Vind het EXACTE punt op de muur dat het dichtst bij de bal is
+            // Dit lost het probleem op dat het midden van de bal nog ver weg is
+            Vector3 impactPoint = myCol.ClosestPoint(other.transform.position);
 
-            // 2. Hoe groot is de muur (halve grootte)?
-            Vector3 halfSize = myCollider.size / 2f;
+            // 2. Vertaal dit punt naar lokale coördinaten van de muur
+            // (Houdt rekening met rotatie en positie van de muur)
+            Vector3 localPoint = transform.InverseTransformPoint(impactPoint);
 
-            // 3. Bereken percentage. 
-            // localHitPoint.x loopt van -halfSize tot +halfSize.
-            // We tellen halfSize erbij op, en delen door de totale grootte.
-            // Resultaat: 0 is linkerkant, 1 is rechterkant.
-            float relativeX = (localHitPoint.x + halfSize.x) / myCollider.size.x;
-            float relativeY = (localHitPoint.y + halfSize.y) / myCollider.size.y;
+            // 3. Bereken percentages op basis van jouw gekozen assen
+            float relativeX = CalculatePercent(localPoint, widthAxis, myCol.size);
+            float relativeY = CalculatePercent(localPoint, heightAxis, myCol.size);
 
-            // --- STUUR NAAR UI ---
-            Debug.Log($"Hit op: X={relativeX:P0}, Y={relativeY:P0}");
+            Debug.Log($"Hit op UI: X={(relativeX*100):F0}%, Y={(relativeY*100):F0}%");
 
+            // Stuur naar UI Manager
             if (UIWallManager.Instance != null)
             {
-                // Stuur de coördinaten én de bal zelf naar de UI manager
                 UIWallManager.Instance.RegisterHitOnUI(relativeX, relativeY, other.gameObject);
             }
         }
+    }
+
+    // Hulpfunctie om het percentage (0.0 tot 1.0) te berekenen voor een specifieke as
+    float CalculatePercent(Vector3 localPoint, Axis axis, Vector3 colliderSize)
+    {
+        float pos = 0;
+        float size = 0;
+
+        switch (axis)
+        {
+            case Axis.X: pos = localPoint.x; size = colliderSize.x; break;
+            case Axis.Y: pos = localPoint.y; size = colliderSize.y; break;
+            case Axis.Z: pos = localPoint.z; size = colliderSize.z; break;
+        }
+
+        // Formule: (Positie + HalveGrootte) / TotaleGrootte
+        // Dit zet bijv. -0.5 tot 0.5 om naar 0.0 tot 1.0
+        return Mathf.Clamp01((pos + (size / 2f)) / size);
     }
 }
