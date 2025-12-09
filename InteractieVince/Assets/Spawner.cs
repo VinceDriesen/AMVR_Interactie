@@ -1,39 +1,78 @@
 using UnityEngine;
 
-public class TargetSpawner : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
     public GameObject targetPrefab;
     public int numberOfTargets = 10;
-    
-    // Hier slepen we straks de Arena (met de BoxCollider) in
-    public Collider spawnZone; 
+
+    [Header("Orbit Zone Settings")]
+    [Tooltip("Minimale afstand tot het midden (0,0,0)")]
+    public float minRadius = 3f;
+    [Tooltip("Maximale afstand tot het midden")]
+    public float maxRadius = 8f;
+
+    [Tooltip("Laagste punt van de baan")]
+    public float minHeight = 1.0f;
+    [Tooltip("Hoogste punt van de baan")]
+    public float maxHeight = 3.0f;
 
     void Start()
     {
-        if (spawnZone == null)
-        {
-            Debug.LogError("Vergeet niet de Spawn Zone (Collider) toe te wijzen in de Inspector!");
-            return;
-        }
-
         for (int i = 0; i < numberOfTargets; i++)
         {
-            SpawnTarget();
+            SpawnOrbitingTarget();
         }
     }
 
-    void SpawnTarget()
+    void SpawnOrbitingTarget()
     {
-        // We vragen de grenzen (Bounds) van de collider op
-        Bounds bounds = spawnZone.bounds;
+        // 1. Kies willekeurige parameters binnen de grenzen
+        float randomRadius = Random.Range(minRadius, maxRadius);
+        float randomHeight = Random.Range(minHeight, maxHeight);
+        float randomStartAngle = Random.Range(0f, 360f);
 
-        // Kies een willekeurige plek binnen die grenzen
-        Vector3 randomPos = new Vector3(
-            Random.Range(bounds.min.x, bounds.max.x),
-            Random.Range(bounds.min.y, bounds.max.y),
-            Random.Range(bounds.min.z, bounds.max.z)
+        // 2. Bereken startpositie
+        float rad = randomStartAngle * Mathf.Deg2Rad;
+        Vector3 startPos = new Vector3(
+            Mathf.Cos(rad) * randomRadius,
+            randomHeight,
+            Mathf.Sin(rad) * randomRadius
         );
 
-        Instantiate(targetPrefab, randomPos, Quaternion.identity);
+        // 3. Spawn
+        GameObject newTarget = Instantiate(targetPrefab, startPos, Quaternion.identity);
+
+        // 4. Geef de parameters door aan het script op de bal
+        MovingTarget movementScript = newTarget.GetComponent<MovingTarget>();
+        if (movementScript != null)
+        {
+            movementScript.InitializeOrbit(randomRadius, randomHeight, randomStartAngle);
+        }
+    }
+
+    // Debug: Teken de grenzen in de Scene view
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        // Teken min radius ringen
+        DrawCircle(minRadius, minHeight);
+        DrawCircle(minRadius, maxHeight);
+
+        Gizmos.color = Color.blue;
+        // Teken max radius ringen
+        DrawCircle(maxRadius, minHeight);
+        DrawCircle(maxRadius, maxHeight);
+    }
+
+    void DrawCircle(float r, float y)
+    {
+        Vector3 prevPos = new Vector3(Mathf.Cos(0) * r, y, Mathf.Sin(0) * r);
+        for (int i = 1; i <= 360; i += 10)
+        {
+            float rad = i * Mathf.Deg2Rad;
+            Vector3 nextPos = new Vector3(Mathf.Cos(rad) * r, y, Mathf.Sin(rad) * r);
+            Gizmos.DrawLine(prevPos, nextPos);
+            prevPos = nextPos;
+        }
     }
 }

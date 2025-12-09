@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(LineRenderer))]
 public class LeftControllerBehaviour : MonoBehaviour
@@ -20,8 +21,8 @@ public class LeftControllerBehaviour : MonoBehaviour
 
     [Header("Input Instellingen")]
     public string grabButton = "XRI_Left_Grip";
-    public string pushInput = "XRI_Left_PrimaryButton";
-    public string pullInput = "XRI_Left_SecondaryButton";
+    public InputActionProperty pushInput;
+    public InputActionProperty pullInput;
 
     void Start()
     {
@@ -115,22 +116,17 @@ public class LeftControllerBehaviour : MonoBehaviour
 
     void HandleMovement()
     {
-        // Werkt niet man
-        //float pushRaw = Input.GetAxisRaw(pushInput);
-        //float pullRaw = Input.GetAxisRaw(pullInput);
-        //bool tryingToPush = pushRaw > .2f;
-        //bool tryingToPull = pullRaw > .2f;
+        bool tryingToPush = pushInput.action.IsPressed();
+        bool tryingToPull = pullInput.action.IsPressed();
 
-        //Debug.Log($"Push: {pushRaw}, Pull: {pullRaw}");
-
-        //if (tryingToPush)
-        //{
-        //    currentGrabDistance += stepSize;
-        //}
-        //else if (tryingToPull)
-        //{
-        //    currentGrabDistance -= stepSize;
-        //}
+        if (tryingToPush)
+        {
+            currentGrabDistance += stepSize;
+        }
+        else if (tryingToPull)
+        {
+            currentGrabDistance -= stepSize;
+        }
 
         currentGrabDistance = Mathf.Clamp(currentGrabDistance, 0.5f, rayDistance);
         

@@ -26,26 +26,22 @@ public class GhostBall : MonoBehaviour
         lineRenderer.material = new Material(Shader.Find("Sprites/Default")); // Simpel materiaal
     }
 
-    // Wordt aangeroepen door de WallCatcher direct na spawnen
     public void Setup(MovingTarget realBall)
     {
         linkedRealBall = realBall;
         myRenderer.material.color = ghostColor;
 
-        // Vertel de echte bal dat WIJ zijn ghost zijn
         realBall.RegisterGhost(this);
     }
 
     void Update()
     {
-        // Als de echte bal vernietigd is (bv door timeout), vernietig de ghost ook
         if (linkedRealBall == null)
         {
             Destroy(gameObject);
             return;
         }
 
-        // Teken de lijn alleen als we hoveren
         if (isHovering)
         {
             UpdateLine();
