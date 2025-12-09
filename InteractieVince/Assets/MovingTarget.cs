@@ -1,42 +1,145 @@
 using UnityEngine;
+using System.Collections;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Renderer))]
 public class MovingTarget : MonoBehaviour
 {
-    [Header("Settings")]
+    // ... [Al je bestaande variabelen: speed, colors, etc.] ...
+    [Header("Movement Settings")]
     public float minSpeed = 5f;
     public float maxSpeed = 15f;
+    public bool moveOnGroundOnly = true;
+
+    [Header("Anti-Stuck Settings")]
+    public float stuckCheckInterval = 0.5f;
+    public float minMoveDistance = 0.1f;
+
+    [Header("Interaction Settings")]
+    public Color highlightColor = Color.yellow;
+    public Color selectedColor = Color.green;
+    public Color wallHitColor = Color.red;
 
     private Rigidbody rb;
-    private float currentSpeed;
+    private Renderer myRenderer;
+    private Color originalColor;
+    private float targetSpeed;
+    private Vector3 lastPosition;
+    private bool isSelected = false;
+
+    // --- NIEUW: Referentie naar de ghost ---
+    private GhostBall activeGhost;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        myRenderer = GetComponent<Renderer>();
+        originalColor = myRenderer.material.color;
+    }
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-
-        // 1. Kies een willekeurige richting
-        Vector3 randomDirection = Random.onUnitSphere;
-
-        // 2. Kies een willekeurige snelheid
-        currentSpeed = Random.Range(minSpeed, maxSpeed);
-
-        // 3. Geef de eerste zet
-        rb.velocity = randomDirection * currentSpeed;
+        InitializeMovement();
+        StartCoroutine(CheckStuckRoutine());
     }
 
     void FixedUpdate()
     {
-        // Optioneel: Forceer constante snelheid
-        // Physics engines kunnen soms heel iets energie verliezen bij botsingen.
-        // Dit zorgt ervoor dat de snelheid altijd constant blijft.
-        if (rb.velocity.magnitude != currentSpeed)
+        if (!isSelected) MaintainSpeed();
+        else rb.velocity = Vector3.zero;
+    }
+
+    // --- NIEUW: Functie om ghost te registreren ---
+    public void RegisterGhost(GhostBall ghost)
+    {
+        // Als er al een oude ghost was, ruim die op (optioneel)
+        if (activeGhost != null) Destroy(activeGhost.gameObject);
+        activeGhost = ghost;
+    }
+
+    public void OnWallPass()
+    {
+        originalColor = wallHitColor;
+        if (!isSelected) myRenderer.material.color = wallHitColor;
+    }
+
+    public void SetHover(bool active)
+    {
+        if (isSelected) return;
+
+        if (active) myRenderer.material.color = highlightColor;
+        else myRenderer.material.color = originalColor;
+    }
+
+    // In MovingTarget.cs
+
+    public void SelectTarget()
+    {
+        isSelected = true;
+        myRenderer.material.color = selectedColor;
+
+        // Stop fysica
+        if (rb != null)
         {
-            rb.velocity = rb.velocity.normalized * currentSpeed;
+            rb.isKinematic = true;
+            rb.velocity = Vector3.zero;
+        }
+
+        // CRUCIAAL: Vernietig de ghost (dus ook degene waar je net naar keek)
+        if (activeGhost != null)
+        {
+            Destroy(activeGhost.gameObject);
+            activeGhost = null;
+        }
+
+        Debug.Log("Bal gevangen via Ghost of Direct!");
+    }
+
+    // ... [Je bestaande movement functies: InitializeMovement, MaintainSpeed, etc.] ...
+    private void InitializeMovement()
+    {
+        targetSpeed = Random.Range(minSpeed, maxSpeed);
+        rb.velocity = GetRandomDirection() * targetSpeed;
+    }
+
+    private Vector3 GetRandomDirection()
+    {
+        if (moveOnGroundOnly)
+        {
+            Vector2 circle = Random.insideUnitCircle.normalized;
+            return new Vector3(circle.x, 0f, circle.y);
+        }
+        return Random.onUnitSphere;
+    }
+
+    private void MaintainSpeed()
+    {
+        if (rb.velocity.sqrMagnitude > 0.1f)
+        {
+            rb.velocity = rb.velocity.normalized * targetSpeed;
         }
     }
-    
-    // Visuele debug (optioneel): Kleur veranderen bij botsing
-    private void OnCollisionEnter(Collision collision)
+
+    private IEnumerator CheckStuckRoutine()
     {
-        // Hier kunnen we later geluid of vonken toevoegen
+        while (true)
+        {
+            lastPosition = transform.position;
+            yield return new WaitForSeconds(stuckCheckInterval);
+
+            if (!isSelected)
+            {
+                float distanceTravelled = Vector3.Distance(transform.position, lastPosition);
+                if (distanceTravelled < minMoveDistance) Unstick();
+            }
+        }
     }
+
+    private void Unstick()
+    {
+        Vector3 newDir = GetRandomDirection();
+        rb.velocity = newDir * targetSpeed;
+        if (moveOnGroundOnly) transform.position += Vector3.up * 0.1f;
+    }
+
 }

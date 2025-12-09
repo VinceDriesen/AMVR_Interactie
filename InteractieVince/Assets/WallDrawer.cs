@@ -1,17 +1,20 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // Voor de XR knoppen
+using UnityEngine.InputSystem;
 
 public class WallDrawer : MonoBehaviour
 {
     [Header("Wat tekenen we?")]
-    public GameObject wallPrefab;    // De ECHTE muur (GhostNet/WallCatcher)
-    public GameObject previewPrefab; // Het blokje dat je ziet tijdens tekenen (zonder collider)
+    public GameObject wallPrefab;
+    public GameObject previewPrefab;
 
     [Header("Input")]
-    public InputActionProperty drawButton; // Welke knop gebruiken we? (bijv. Trigger)
+    public InputActionProperty drawButton;
 
     [Header("Instellingen")]
-    public float minThickness = 0.05f; // Minimale dikte van de muur
+    public float minThickness = 0.05f;
+
+    // Zorg dat deze naam PRECIES overeenkomt met je Layer in Unity
+    public string targetLayerName = "Wall";
 
     private GameObject currentPreview;
     private Vector3 startPoint;
@@ -19,19 +22,16 @@ public class WallDrawer : MonoBehaviour
 
     void Update()
     {
-        // 1. START TEKENEN (Knop net ingedrukt)
         if (drawButton.action.WasPressedThisFrame())
         {
             StartDrawing();
         }
 
-        // 2. BEZIG MET TEKENEN (Knop ingehouden)
         if (isDrawing)
         {
             UpdatePreview();
         }
 
-        // 3. STOP TEKENEN (Knop losgelaten)
         if (drawButton.action.WasReleasedThisFrame())
         {
             FinishDrawing();
@@ -41,9 +41,8 @@ public class WallDrawer : MonoBehaviour
     void StartDrawing()
     {
         isDrawing = true;
-        startPoint = transform.position; // Sla het startpunt op (waar je hand nu is)
+        startPoint = transform.position;
 
-        // Maak de preview cube aan
         if (previewPrefab != null)
         {
             currentPreview = Instantiate(previewPrefab, startPoint, Quaternion.identity);
@@ -52,23 +51,17 @@ public class WallDrawer : MonoBehaviour
 
     void UpdatePreview()
     {
-        // Waar is de hand nu?
         Vector3 currentPoint = transform.position;
-
-        // Berekend het midden tussen Start en Huidig punt
         Vector3 centerPosition = (startPoint + currentPoint) / 2f;
 
-        // Berekend de grootte (verschil tussen start en huidig)
         float sizeX = Mathf.Abs(startPoint.x - currentPoint.x);
         float sizeY = Mathf.Abs(startPoint.y - currentPoint.y);
         float sizeZ = Mathf.Abs(startPoint.z - currentPoint.z);
 
-        // Zorg dat hij niet platter wordt dan de minimale dikte (zodat je hem wel ziet)
         sizeX = Mathf.Max(sizeX, minThickness);
         sizeY = Mathf.Max(sizeY, minThickness);
         sizeZ = Mathf.Max(sizeZ, minThickness);
 
-        // Update de preview
         if (currentPreview != null)
         {
             currentPreview.transform.position = centerPosition;
@@ -80,21 +73,50 @@ public class WallDrawer : MonoBehaviour
     {
         isDrawing = false;
 
-        // Als we een preview hebben, gebruiken we die gegevens voor de echte muur
         if (currentPreview != null)
         {
             Vector3 finalPos = currentPreview.transform.position;
             Vector3 finalScale = currentPreview.transform.localScale;
 
-            // Ruim de preview op
             Destroy(currentPreview);
 
-            // MAAK DE ECHTE MUUR
             if (wallPrefab != null)
             {
+                // 1. Muur aanmaken
                 GameObject realWall = Instantiate(wallPrefab, finalPos, Quaternion.identity);
-                realWall.transform.localScale = finalScale; // Neem de getekende grootte over
+                realWall.transform.localScale = finalScale;
+
+                // 2. Tag Instellen (Voor Manipulatie)
+                // Let op: Tag 'Wall' moet bestaan in Unity Editor!
+                realWall.tag = "Wall";
+
+                // 3. Layer Instellen (Voor Raycast detectie)
+                int layerIndex = LayerMask.NameToLayer(targetLayerName);
+
+                if (layerIndex != -1)
+                {
+                    // We gebruiken een hulpfunctie om de layer op de muur ÉN alle children te zetten
+                    SetLayerRecursively(realWall, layerIndex);
+                }
+                else
+                {
+                    Debug.LogWarning($"Let op: De layer '{targetLayerName}' bestaat niet in de Project Settings!");
+                }
             }
+        }
+    }
+
+    // Hulpfunctie: Zet layer op object en al zijn kinderen (belangrijk voor Colliders!)
+    void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        if (obj == null) return;
+
+        obj.layer = newLayer;
+
+        foreach (Transform child in obj.transform)
+        {
+            if (child == null) continue;
+            SetLayerRecursively(child.gameObject, newLayer);
         }
     }
 }

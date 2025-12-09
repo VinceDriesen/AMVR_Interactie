@@ -1,0 +1,105 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\assets\\ghostball.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|solutionrelative:assets\\ghostball.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\assets\\wallcatcher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|solutionrelative:assets\\wallcatcher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\assets\\rightcontrollerbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|solutionrelative:assets\\rightcontrollerbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\assets\\leftcontrollerbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|solutionrelative:assets\\leftcontrollerbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\assets\\movingtarget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|solutionrelative:assets\\movingtarget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GhostBall.cs",
+              "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\GhostBall.cs",
+              "RelativeDocumentMoniker": "Assets\\GhostBall.cs",
+              "ToolTip": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\GhostBall.cs",
+              "RelativeToolTip": "Assets\\GhostBall.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAuwB0AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T12:43:13.974Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LeftControllerBehaviour.cs",
+              "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\LeftControllerBehaviour.cs",
+              "RelativeDocumentMoniker": "Assets\\LeftControllerBehaviour.cs",
+              "ToolTip": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\LeftControllerBehaviour.cs",
+              "RelativeToolTip": "Assets\\LeftControllerBehaviour.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T10:23:15.011Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RightControllerBehaviour.cs",
+              "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\RightControllerBehaviour.cs",
+              "RelativeDocumentMoniker": "Assets\\RightControllerBehaviour.cs",
+              "ToolTip": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\RightControllerBehaviour.cs",
+              "RelativeToolTip": "Assets\\RightControllerBehaviour.cs",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAiwGMAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T09:31:39.386Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MovingTarget.cs",
+              "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\MovingTarget.cs",
+              "RelativeDocumentMoniker": "Assets\\MovingTarget.cs",
+              "ToolTip": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\MovingTarget.cs",
+              "RelativeToolTip": "Assets\\MovingTarget.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAuwEsAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T09:12:39.149Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "WallCatcher.cs",
+              "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\WallCatcher.cs",
+              "RelativeDocumentMoniker": "Assets\\WallCatcher.cs",
+              "ToolTip": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\WallCatcher.cs",
+              "RelativeToolTip": "Assets\\WallCatcher.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAuwBYAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T09:11:26.373Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
