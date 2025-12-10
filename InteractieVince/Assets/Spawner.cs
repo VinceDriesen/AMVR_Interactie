@@ -10,7 +10,6 @@ public class Spawner : MonoBehaviour
     public float minRadius = 3f;
     [Tooltip("Maximale afstand tot het midden")]
     public float maxRadius = 8f;
-
     [Tooltip("Laagste punt van de baan")]
     public float minHeight = 1.0f;
     [Tooltip("Hoogste punt van de baan")]
@@ -50,7 +49,6 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    // Debug: Teken de grenzen in de Scene view
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;

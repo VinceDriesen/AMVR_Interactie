@@ -4,14 +4,14 @@ using UnityEngine;
 [RequireComponent(typeof(Renderer))]
 public class GhostBall : MonoBehaviour
 {
-    private MovingTarget linkedRealBall; // Referentie naar de echte bal
+    private MovingTarget linkedRealBall;
     private LineRenderer lineRenderer;
     private Renderer myRenderer;
     private bool isHovering = false;
 
     [Header("Visuals")]
-    public Color ghostColor = new Color(1, 1, 1, 0.5f); // Transparant wit
-    public Color highlightColor = Color.cyan; // Kleur bij hoveren
+    public Color ghostColor = new Color(1, 1, 1, 0.5f);
+    public Color highlightColor = Color.cyan;
 
     void Awake()
     {
@@ -22,8 +22,8 @@ public class GhostBall : MonoBehaviour
         lineRenderer.positionCount = 2;
         lineRenderer.startWidth = 0.02f;
         lineRenderer.endWidth = 0.02f;
-        lineRenderer.enabled = false; // Lijn standaard uit
-        lineRenderer.material = new Material(Shader.Find("Sprites/Default")); // Simpel materiaal
+        lineRenderer.enabled = false;
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
     }
 
     public void Setup(MovingTarget realBall)
@@ -48,7 +48,6 @@ public class GhostBall : MonoBehaviour
         }
     }
 
-    // Aangeroepen door PlayerRaycast
     public void SetHover(bool active)
     {
         isHovering = active;
@@ -57,24 +56,14 @@ public class GhostBall : MonoBehaviour
         if (active)
         {
             myRenderer.material.color = highlightColor;
-
-            // Highlight OOK de echte bal (via zijn script)
             if (linkedRealBall != null) linkedRealBall.SetHover(true);
         }
         else
         {
             myRenderer.material.color = ghostColor;
-
-            // Stop highlight op echte bal
             if (linkedRealBall != null) linkedRealBall.SetHover(false);
         }
     }
-
-    public MovingTarget GetRealBall()
-    {
-        return linkedRealBall;
-    }
-
     void UpdateLine()
     {
         if (linkedRealBall != null)
@@ -83,4 +72,9 @@ public class GhostBall : MonoBehaviour
             lineRenderer.SetPosition(1, linkedRealBall.transform.position); // Bal positie
         }
     }
+
+    public MovingTarget GetRealBall()
+    {
+        return linkedRealBall;
+    }    
 }

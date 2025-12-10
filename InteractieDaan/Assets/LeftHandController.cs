@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class LeftHandController : MonoBehaviour
 {
-    // Start is called before the first frame update
     private LineRenderer lineRenderer;
+    private MonoBehaviour lastHoveredObject;
 
     [Header("Instellingen")]
-    public float rayDistance = 100f;
+    public float rayDistance = 10f;
 
     void Start()
     {
@@ -25,6 +25,12 @@ public class LeftHandController : MonoBehaviour
 
     void Update()
     {
+        var currentFoundObj = SetRaycastToClosestObject();
+        HandleHover(currentFoundObj);
+    }
+
+    private MonoBehaviour SetRaycastToClosestObject()
+    {
         lineRenderer.SetPosition(0, transform.position);
         RaycastHit[] hits = Physics.RaycastAll(transform.position, transform.forward, rayDistance);
         Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
@@ -37,69 +43,65 @@ public class LeftHandController : MonoBehaviour
             if (hit.collider.isTrigger) continue;
 
             endPoint = hit.point;
+            lineRenderer.SetPosition(1, endPoint);
 
-            // Check 1: Is het een Echte Bal?
             MovingTarget target = hit.collider.GetComponent<MovingTarget>();
             if (target != null)
             {
-                currentFoundObj = target;
-                break;
+                return target;
+            }
+            VisualBallLink ghost = hit.collider.GetComponent<VisualBallLink>();
+            if (ghost != null)
+            {
+                return ghost;
             }
 
-            // Check 2: Is het een Ghost?
-
-            // Iets anders geraakt (muur etc)
-            break;
+            return null;
         }
 
-        lineRenderer.SetPosition(1, endPoint);
-        //HandleHover(currentFoundObj);
+        return currentFoundObj;
     }
 
-    //void HandleHover(MonoBehaviour currentObj)
-    //{
-    //    // Is er iets veranderd?
-    //    if (lastHoveredObject != currentObj)
-    //    {
-    //        // Zet oude uit
-    //        if (lastHoveredObject != null)
-    //        {
-    //            if (lastHoveredObject is MovingTarget t) t.SetHover(false);
-    //            if (lastHoveredObject is GhostBall g) g.SetHover(false);
-    //        }
+    void HandleHover(MonoBehaviour currentObj)
+    {
+        if (lastHoveredObject != currentObj)
+        {
+            // Zet oude uit
+            if (lastHoveredObject != null)
+            {
+                if (lastHoveredObject is MovingTarget t) t.SetHover(false);
+                if (lastHoveredObject is VisualBallLink g) g.SetHover(false);
+            }
 
-    //        // Zet nieuwe aan
-    //        if (currentObj != null)
-    //        {
-    //            if (currentObj is MovingTarget t) t.SetHover(true);
-    //            if (currentObj is GhostBall g) g.SetHover(true);
+            // Zet nieuwe aan
+            if (currentObj != null)
+            {
+                if (currentObj is MovingTarget t) t.SetHover(true);
+                if (currentObj is VisualBallLink g) g.SetHover(true);
 
-    //            lineRenderer.startColor = Color.yellow; // Feedback dat je iets raakt
-    //        }
-    //        else
-    //        {
-    //            lineRenderer.startColor = Color.red;
-    //        }
+                lineRenderer.startColor = Color.yellow;
+            }
+            else
+            {
+                lineRenderer.startColor = Color.red;
+            }
 
-    //        lastHoveredObject = currentObj;
-    //    }
+            lastHoveredObject = currentObj;
+        }
 
-    //    // Input check voor grijpen (G of Trigger)
-    //    // Let op: Je grijpt normaal alleen de ECHTE bal, niet de ghost.
-    //    // Maar als je op de ghost mikt en 'grijpt', zou je eventueel de echte bal kunnen selecteren?
-    //    // Voor nu: Alleen echte bal selecteren.
-    //    if (Input.GetAxis("XRI_Right_Grip") > .5f) // Voorbeeld input
-    //    {
-    //        if (currentObj is MovingTarget target)
-    //        {
-    //            target.SelectTarget();
-    //        }
-    //        else if (currentObj is GhostBall ghost)
-    //        {
-    //            ghost.GetRealBall().SelectTarget();
-    //        }
-    //    }
-    //}
+        // Input check voor grijpen (G of Trigger)
+        if (Input.GetAxis("XRI_Right_Grip") > .5f)
+        {
+            if (currentObj is MovingTarget target)
+            {
+                target.SelectTarget();
+            }
+            else if (currentObj is VisualBallLink ghost)
+            {
+                ghost.GetRealBall().SelectTarget();
+            }
+        }
+    }
 }
 
 

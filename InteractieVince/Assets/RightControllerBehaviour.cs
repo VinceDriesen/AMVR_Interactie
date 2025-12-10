@@ -89,10 +89,6 @@ public class RightControllerBehaviour : MonoBehaviour
             lastHoveredObject = currentObj;
         }
 
-        // Input check voor grijpen (G of Trigger)
-        // Let op: Je grijpt normaal alleen de ECHTE bal, niet de ghost.
-        // Maar als je op de ghost mikt en 'grijpt', zou je eventueel de echte bal kunnen selecteren?
-        // Voor nu: Alleen echte bal selecteren.
         if (Input.GetAxis("XRI_Right_Grip") > .5f) // Voorbeeld input
         {
             if (currentObj is MovingTarget target)

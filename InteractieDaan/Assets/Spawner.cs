@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
+    [Header("Target Settings")]
     public GameObject targetPrefab;
     public int numberOfTargets = 10;
 
@@ -10,7 +11,6 @@ public class Spawner : MonoBehaviour
     public float minRadius = 3f;
     [Tooltip("Maximale afstand tot het midden")]
     public float maxRadius = 8f;
-
     [Tooltip("Laagste punt van de baan")]
     public float minHeight = 1.0f;
     [Tooltip("Hoogste punt van de baan")]

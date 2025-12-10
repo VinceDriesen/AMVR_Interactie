@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 
 [RequireComponent(typeof(Rigidbody))]
-// Renderer is niet meer verplicht op DIT object, want dit wordt onzichtbaar
 public class MovingTarget : MonoBehaviour
 {
-    [Header("Ghost & Visual Settings")]
-    public GameObject visualPrefab;      // Sleep hier een bal-prefab in ZONDER scripts
-    public float slowMoSpeed = 2.0f;     // Snelheid IN de lamp (erg traag)
-    public float catchUpSpeed = 50f;     // Snelheid UIT de lamp (erg snel)
+    [Header("Ghost Settings")]
+    [Tooltip("Prefab voor de zichtbare bal")]
+    public GameObject visualPrefab;
+    [Tooltip("Snelheid van de bal wanneer deze in de lamp zit")]
+    public float slowMoSpeed = 2.0f;     
+    [Tooltip("Snelheid van de bal wanneer deze uit de lamp is")]
+    public float catchUpSpeed = 50f;     
 
     [Header("Orbit Settings")]
     public float radius = 5f;
@@ -22,10 +24,14 @@ public class MovingTarget : MonoBehaviour
     public float speedChangeInterval = 3.0f;
 
     [Header("Interaction Settings")]
+    public Color highlightColor = Color.yellow;
     public Color selectedColor = Color.green;
 
     // Interne referenties
     private Rigidbody rb;
+    private Renderer myRenderer;
+
+    private VisualBallLink visualLinkScript;
     private GameObject visualObject;      // De zichtbare bal
     private Renderer visualRenderer;      // De renderer van de zichtbare bal
     private Color originalColor;
@@ -40,11 +46,14 @@ public class MovingTarget : MonoBehaviour
     private float currentSpeed;
     private float speedTimer;
     private float initialHeight;
+    private float lastMoveSpeed = 0f;
     private bool isSelected = false;
+    
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        myRenderer = GetComponent<Renderer>();
         rb.useGravity = false;
         rb.isKinematic = true;
 
@@ -59,6 +68,12 @@ public class MovingTarget : MonoBehaviour
             // Verwijder colliders van de visual, anders botst hij met de ghost of triggers!
             foreach (var c in visualObject.GetComponentsInChildren<Collider>()) Destroy(c);
 
+            visualLinkScript = visualObject.GetComponent<VisualBallLink>();
+            if (visualLinkScript != null)
+            {
+                visualLinkScript.myGhost = this; // Zeg tegen de visual: IK ben jouw ghost
+            }
+
             visualRenderer = visualObject.GetComponent<Renderer>();
             if (visualRenderer) originalColor = visualRenderer.material.color;
         }
@@ -68,7 +83,6 @@ public class MovingTarget : MonoBehaviour
         }
     }
 
-    // Initialize wordt aangeroepen door je Spawner
     public void InitializeOrbit(float startRadius, float startHeight, float startAngle)
     {
         radius = startRadius;
@@ -83,14 +97,12 @@ public class MovingTarget : MonoBehaviour
     {
         if (isSelected) return;
 
-        // --- STAP 1: De Ghost berekent zijn positie (Jouw originele logica) ---
+        // Handle orbit
         HandleOrbitMovement();
         HandleSpeedVariation();
 
-        // --- STAP 2: Voeg huidige Ghost positie toe aan geschiedenis ---
+        // Queue huidige positie voor VisualBall, en voer uit
         movementHistory.Enqueue(new Pose(transform.position, transform.rotation));
-
-        // --- STAP 3: Beweeg de Visual Bal ---
         HandleVisualMovement();
     }
 
@@ -123,55 +135,70 @@ public class MovingTarget : MonoBehaviour
     {
         if (visualObject == null) return;
 
-        // Bepaal snelheid: Heel traag in vizier, heel snel erbuiten
-        float currentMoveSpeed = isInVisor ? slowMoSpeed : catchUpSpeed;
+        float targetMoveSpeed = isInVisor ? slowMoSpeed : catchUpSpeed;
+        float currentMoveSpeed = Mathf.Lerp(lastMoveSpeed, targetMoveSpeed, Time.deltaTime * 5f);
+        lastMoveSpeed = currentMoveSpeed;
 
-        // Als we achterlopen op de geschiedenis
+        Vector3 targetPosition;
+        Quaternion targetRotation;
+
         if (movementHistory.Count > 0)
         {
-            // Kijk naar het oudste punt in de lijst (waar de ghost X frames geleden was)
-            Pose targetPose = movementHistory.Peek();
+            Pose historyPose = movementHistory.Peek();
+            targetPosition = historyPose.position;
+            targetRotation = historyPose.rotation;
 
-            // Beweeg erheen
-            visualObject.transform.position = Vector3.MoveTowards(
-                visualObject.transform.position,
-                targetPose.position,
-                currentMoveSpeed * Time.deltaTime
-            );
-
-            // Roteer erheen
-            visualObject.transform.rotation = Quaternion.RotateTowards(
-                visualObject.transform.rotation,
-                targetPose.rotation,
-                currentMoveSpeed * 10f * Time.deltaTime
-            );
-
-            // Als we dicht genoeg bij dit punt zijn, verwijder het uit de lijst en ga naar het volgende
-            if (Vector3.Distance(visualObject.transform.position, targetPose.position) < 0.05f)
+            while (movementHistory.Count > 0 && Vector3.Distance(visualObject.transform.position, movementHistory.Peek().position) < 0.05f)
             {
                 movementHistory.Dequeue();
+
+                if (movementHistory.Count > 0)
+                {
+                    historyPose = movementHistory.Peek();
+                    targetPosition = historyPose.position;
+                    targetRotation = historyPose.rotation;
+                }
             }
         }
         else
         {
-            // We zijn helemaal bij! Sync direct met de ghost
-            visualObject.transform.position = transform.position;
-            visualObject.transform.rotation = transform.rotation;
+            transform.GetPositionAndRotation(out targetPosition, out targetRotation);
         }
+        
+        visualObject.transform.SetPositionAndRotation(Vector3.MoveTowards(
+            visualObject.transform.position,
+            targetPosition,
+            currentMoveSpeed * Time.deltaTime
+        ), Quaternion.Slerp(
+            visualObject.transform.rotation,
+            targetRotation,
+            currentMoveSpeed * 2f * Time.deltaTime
+        ));
     }
 
-    // --- INTERACTIE (Aangepast voor Visual) ---
+    public void SelectTarget()
+    {
+        isSelected = true;
+        visualRenderer.material.color = selectedColor;
 
-    // Aangeroepen door de Lamp
+        if (visualObject != null)
+        {
+            Destroy(visualObject);
+            visualObject = null;
+        }
+
+        Debug.Log("Orbit Target gevangen!");
+    }
+
+    public void SetHover(bool active)
+    {
+        if (isSelected) return;
+        myRenderer.material.color = active ? highlightColor : originalColor;
+    }
+
     public void SetSlowMo(bool active)
     {
         isInVisor = active;
-
-        // Visuele feedback: Ijsblauw als hij vertraagd is
-        if (visualRenderer)
-        {
-            visualRenderer.material.color = active ? Color.cyan : (isSelected ? selectedColor : originalColor);
-        }
     }
 
     // Zorg dat de visual verdwijnt als dit object vernietigd wordt

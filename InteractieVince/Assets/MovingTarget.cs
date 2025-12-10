@@ -110,8 +110,6 @@ public class MovingTarget : MonoBehaviour
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * 2.0f);
     }
 
-    // --- INTERACTIE LOGICA (Gelijk gebleven) ---
-
     public void RegisterGhost(GhostBall ghost)
     {
         if (activeGhost != null) Destroy(activeGhost.gameObject);

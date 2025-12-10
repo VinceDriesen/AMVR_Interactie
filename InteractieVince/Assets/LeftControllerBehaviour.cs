@@ -1,30 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class RightHandController : MonoBehaviour
+[RequireComponent(typeof(LineRenderer))]
+public class LeftControllerBehaviour : MonoBehaviour
 {
     private LineRenderer lineRenderer;
     private Transform selectedWall;
     private bool isGrabbing = false;
 
-    [Header("Raycast Instellingen")]
+    private float currentGrabDistance = 0f;
+
+    [Header("Instellingen")]
     public float rayDistance = 20f;
     public LayerMask wallLayer;
 
-    [Header("Schaal Instellingen (Lamp Grootte)")]
-    public float scaleSpeed = 1.0f; // Hoe snel hij groeit/krimpt
-    public float minScaleY = 0.1f;  // Niet kleiner dan dit
-    public float maxScaleY = 15.0f; // Niet groter dan dit
+    [Header("Beweging Instellingen")]
+    public float pushPullSpeed = 4.0f;
+    public float stepSize = 0.5f;
+    public float holdDelay = 0.4f;
 
     [Header("Input Instellingen")]
-    // Let op: Dit was Left, nu standaard Right gezet voor de zekerheid
-    public string grabButton = "XRI_Right_Grip";
-
-    // Koppel hier je Joystick Up/Down of knoppen A/B aan
-    public InputActionProperty scaleUpInput;
-    public InputActionProperty scaleDownInput;
+    public string grabButton = "XRI_Left_Grip";
+    public InputActionProperty pushInput;
+    public InputActionProperty pullInput;
 
     void Start()
     {
@@ -41,11 +39,9 @@ public class RightHandController : MonoBehaviour
 
     void Update()
     {
-        // 1. Check of we de GRIP knop indrukken (Oude Input Manager stijl, via string)
         float gripValue = Input.GetAxis(grabButton);
         bool gripPressed = gripValue > 0.5f;
 
-        // 2. Logica: Vastpakken of Loslaten
         if (!gripPressed && isGrabbing)
         {
             ReleaseWall();
@@ -53,7 +49,7 @@ public class RightHandController : MonoBehaviour
 
         if (isGrabbing && selectedWall != null)
         {
-            HandleScaling(); // <--- Alleen nog maar schalen
+            HandleMovement();
             DrawLineToTarget(selectedWall.position);
         }
         else
@@ -67,43 +63,46 @@ public class RightHandController : MonoBehaviour
         lineRenderer.SetPosition(0, transform.position);
         RaycastHit hit;
 
-        // Schiet straal naar voren
         if (Physics.Raycast(transform.position, transform.forward, out hit, rayDistance, wallLayer, QueryTriggerInteraction.Collide))
         {
             lineRenderer.SetPosition(1, hit.point);
 
-            // Check of we een geldig object raken (Muur, Catcher of Target)
-            if (hit.collider.CompareTag("Wall") || hit.collider.CompareTag("WallCatcher") || hit.collider.GetComponent<MovingTarget>() != null)
+            if (hit.collider.CompareTag("Wall"))
             {
                 lineRenderer.startColor = Color.yellow;
                 lineRenderer.endColor = Color.yellow;
 
                 if (gripJustPressed && !isGrabbing)
                 {
-                    GrabWall(hit.transform);
+                    GrabWall(hit.transform, hit.distance);
                 }
+            }
+            else if (hit.collider.CompareTag("WallCatcher"))
+            {
+                lineRenderer.startColor = Color.blue;
+                lineRenderer.endColor = Color.blue;
             }
             else
             {
-                lineRenderer.startColor = Color.red; // Wel hit, maar geen geldig object
+                lineRenderer.startColor = Color.red;
                 lineRenderer.endColor = Color.red;
             }
         }
         else
         {
-            // Geen hit, teken straal in de lucht
             lineRenderer.SetPosition(1, transform.position + (transform.forward * rayDistance));
             lineRenderer.startColor = Color.red;
             lineRenderer.endColor = Color.red;
         }
     }
 
-    void GrabWall(Transform wall)
+    void GrabWall(Transform wall, float distance)
     {
         isGrabbing = true;
         selectedWall = wall;
+        currentGrabDistance = distance;
 
-        lineRenderer.startColor = Color.green; // Visuele feedback dat je vast hebt
+        lineRenderer.startColor = Color.green;
         lineRenderer.endColor = Color.green;
     }
 
@@ -115,29 +114,24 @@ public class RightHandController : MonoBehaviour
         lineRenderer.endColor = Color.red;
     }
 
-    void HandleScaling()
+    void HandleMovement()
     {
-        // Lees de inputs uit (Nieuwe Input System)
-        bool tryingToEnlarge = scaleUpInput.action != null && scaleUpInput.action.IsPressed();
-        bool tryingToShrink = scaleDownInput.action != null && scaleDownInput.action.IsPressed();
+        bool tryingToPush = pushInput.action.IsPressed();
+        bool tryingToPull = pullInput.action.IsPressed();
 
-        // Pak huidige schaal
-        Vector3 currentScale = selectedWall.localScale;
-
-        if (tryingToEnlarge)
+        if (tryingToPush)
         {
-            currentScale.y += scaleSpeed * Time.deltaTime;
+            currentGrabDistance += stepSize;
         }
-        else if (tryingToShrink)
+        else if (tryingToPull)
         {
-            currentScale.y -= scaleSpeed * Time.deltaTime;
+            currentGrabDistance -= stepSize;
         }
 
-        // Beveiliging: Zorg dat hij binnen de limieten blijft
-        currentScale.y = Mathf.Clamp(currentScale.y, minScaleY, maxScaleY);
+        currentGrabDistance = Mathf.Clamp(currentGrabDistance, 0.5f, rayDistance);
 
-        // Pas toe
-        selectedWall.localScale = currentScale;
+        Vector3 newPosition = transform.position + (transform.forward * currentGrabDistance);
+        selectedWall.position = newPosition;
     }
 
     void DrawLineToTarget(Vector3 targetPos)
