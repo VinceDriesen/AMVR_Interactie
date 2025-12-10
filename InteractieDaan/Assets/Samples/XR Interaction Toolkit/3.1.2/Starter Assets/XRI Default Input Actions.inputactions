@@ -2011,6 +2011,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Select1",
+                    "type": "Button",
+                    "id": "5d16d0f0-1dfd-4289-ab46-52f46bdb69d2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Select Value",
                     "type": "Value",
                     "id": "39bbf1ac-21a3-413d-90f6-6dbf6efeaabe",
@@ -2108,6 +2117,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "primaryButton",
+                    "type": "Button",
+                    "id": "43e571c4-a1f2-453a-aa6d-060765e428f1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "secondaryButton",
+                    "type": "Button",
+                    "id": "84840b80-5fec-45e8-82e0-2d57b662238b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -2174,6 +2201,72 @@
                     "processors": "",
                     "groups": "",
                     "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3c3234d7-fff3-41cb-aef4-889dde73493f",
+                    "path": "<XRController>{LeftHand}/{GripButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "459526b5-f488-4bdc-9e7e-15429afef81c",
+                    "path": "<MetaAimHand>{LeftHand}/indexPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5ce102a8-9b84-4e11-96c1-a28d8645b4fe",
+                    "path": "<HandInteraction>{LeftHand}/graspFirm",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7fe5edfa-9463-4002-87f2-80b4f96803f1",
+                    "path": "<HandInteraction>{LeftHand}/pinchTouched",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "afef779f-b459-4241-911a-800a29392639",
+                    "path": "<HoloLensHand>{LeftHand}/squeezePressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "64f1bce9-e372-4362-9f3f-83ae93111679",
+                    "path": "<KHRSimpleController>{LeftHand}/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -2418,6 +2511,28 @@
                     "action": "Translate Manipulation",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f825cf39-9757-4202-8ec3-f2e6f70c743c",
+                    "path": "<XRController>{RightHand}/{PrimaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "primaryButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3dd5dd41-ef4c-4309-be30-cb60097b2893",
+                    "path": "<XRController>{RightHand}/{SecondaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "secondaryButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -2483,7 +2598,7 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "01c7fda4-9c15-4167-8b87-58024f21d903",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -2553,17 +2668,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Snap Turn",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "052b129b-fc83-4b33-a606-af10ad595c3e",
-                    "path": "<XRController>{RightHand}/{PrimaryButton}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
