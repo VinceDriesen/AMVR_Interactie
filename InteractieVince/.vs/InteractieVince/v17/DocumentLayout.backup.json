@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\assets\\leftcontrollerbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|solutionrelative:assets\\leftcontrollerbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|c:\\users\\laptop\\downloads\\anaglyph_opgave\\opgave\\amvr_interactie\\interactievince\\assets\\ghostball.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|solutionrelative:assets\\ghostball.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -19,11 +23,7 @@
       "RelativeMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|solutionrelative:assets\\rightcontrollerbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\assets\\leftcontrollerbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|solutionrelative:assets\\leftcontrollerbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|c:\\users\\laptop\\downloads\\anaglyph_opgave\\opgave\\amvr_interactie\\interactievince\\assets\\spawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\assets\\spawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|solutionrelative:assets\\spawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -34,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
@@ -46,12 +46,11 @@
               "RelativeToolTip": "Assets\\Spawner.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T19:42:22.142Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T19:42:22.142Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "GhostBall.cs",
               "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\GhostBall.cs",
               "RelativeDocumentMoniker": "Assets\\GhostBall.cs",
@@ -64,20 +63,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "LeftControllerBehaviour.cs",
               "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\LeftControllerBehaviour.cs",
               "RelativeDocumentMoniker": "Assets\\LeftControllerBehaviour.cs",
               "ToolTip": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\LeftControllerBehaviour.cs",
               "RelativeToolTip": "Assets\\LeftControllerBehaviour.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAArAAAAAAAAAA==",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAAAIsAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-09T10:23:15.011Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "RightControllerBehaviour.cs",
               "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\RightControllerBehaviour.cs",
               "RelativeDocumentMoniker": "Assets\\RightControllerBehaviour.cs",
@@ -85,12 +84,11 @@
               "RelativeToolTip": "Assets\\RightControllerBehaviour.cs",
               "ViewState": "AgIAAAsAAAAAAAAAAAAQwGMAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T09:31:39.386Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T09:31:39.386Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "MovingTarget.cs",
               "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\MovingTarget.cs",
               "RelativeDocumentMoniker": "Assets\\MovingTarget.cs",
@@ -98,12 +96,11 @@
               "RelativeToolTip": "Assets\\MovingTarget.cs",
               "ViewState": "AgIAAC4AAAAAAAAAAAAgwJEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T09:12:39.149Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T09:12:39.149Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "WallCatcher.cs",
               "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\WallCatcher.cs",
               "RelativeDocumentMoniker": "Assets\\WallCatcher.cs",
@@ -111,8 +108,7 @@
               "RelativeToolTip": "Assets\\WallCatcher.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T09:11:26.373Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T09:11:26.373Z"
             }
           ]
         }

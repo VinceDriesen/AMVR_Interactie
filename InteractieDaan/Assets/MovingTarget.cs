@@ -22,9 +22,7 @@ public class MovingTarget : MonoBehaviour
     public float speedChangeInterval = 3.0f;
 
     [Header("Interaction Settings")]
-    public Color highlightColor = Color.yellow;
     public Color selectedColor = Color.green;
-    public Color wallHitColor = Color.red;
 
     // Interne referenties
     private Rigidbody rb;
@@ -174,19 +172,6 @@ public class MovingTarget : MonoBehaviour
         {
             visualRenderer.material.color = active ? Color.cyan : (isSelected ? selectedColor : originalColor);
         }
-    }
-
-    public void OnWallPass()
-    {
-        originalColor = wallHitColor;
-        // Pas kleur aan op de VISUAL, niet op de onzichtbare ghost
-        if (!isSelected && visualRenderer) visualRenderer.material.color = wallHitColor;
-    }
-
-    public void SetHover(bool active)
-    {
-        if (isSelected || visualRenderer == null) return;
-        visualRenderer.material.color = active ? highlightColor : originalColor;
     }
 
     // Zorg dat de visual verdwijnt als dit object vernietigd wordt
