@@ -343,12 +343,12 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 64
-  pushPullSpeed: 2
-  stepSize: 0.5
+  pushPullSpeed: 1
+  stepSize: 0.05
   holdDelay: 0.3
   grabButton: XRI_Left_Grip
   pushInput:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: Push Input
       m_Type: 0
@@ -366,9 +366,9 @@ MonoBehaviour:
         m_Action: Push Input
         m_Flags: 0
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: -2933535233551772732, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   pullInput:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: Pull Input
       m_Type: 0
@@ -386,7 +386,7 @@ MonoBehaviour:
         m_Action: Pull Input
         m_Flags: 0
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: -6856010617238168738, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!120 &679745924
 LineRenderer:
   serializedVersion: 2
@@ -960,7 +960,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 6.98e-43, y: 1.61e-43, z: 0, w: -7.897485e-36}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 3e-45, z: 1.0724e-41, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
