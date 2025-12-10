@@ -13,9 +13,8 @@ GameObject:
   - component: {fileID: 6663833236182460646}
   - component: {fileID: 995850328011426985}
   - component: {fileID: 6046289650344341796}
-  - component: {fileID: 7273980133564982644}
   m_Layer: 0
-  m_Name: MovingTarget
+  m_Name: Visual
   m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,7 +100,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -134,23 +133,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &7273980133564982644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8478725979629868369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afa768bd24526b942b861603ed898040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minSpeed: 5
-  maxSpeed: 15
-  moveOnGroundOnly: 1
-  stuckCheckInterval: 0.5
-  minMoveDistance: 0.1
-  highlightColor: {r: 0.015686274, g: 1, b: 0.928078, a: 1}
-  selectedColor: {r: 0, g: 1, b: 0, a: 1}
-  wallHitColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

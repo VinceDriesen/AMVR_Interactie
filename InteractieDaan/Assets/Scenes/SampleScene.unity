@@ -177,47 +177,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7277802327528778795, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
   m_PrefabInstance: {fileID: 2779669268269126897}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &629373027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 629373020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69dab46594e6e9a4b94a61364d3067f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wallPrefab: {fileID: 2589022406368163492, guid: 982bba7e058b2054fb0902f36331ae11, type: 3}
-  previewPrefab: {fileID: 6782346373259899090, guid: b5b7a6d4f5a2d3c4d9a5231d3f42fc27, type: 3}
-  drawButton:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Draw Button
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: a9d76604-cbbd-47b3-82c5-bd16abf4f482
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  minThickness: 0.05
-  targetLayerName: Wall
---- !u!114 &629373034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 629373020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26829a4b5de758a4e94725bfe3a62149, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rayDistance: 100
 --- !u!120 &629373035
 LineRenderer:
   serializedVersion: 2
@@ -960,7 +919,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 3e-45, z: 1.0724e-41, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 2.092841e+29}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -1314,13 +1273,7 @@ PrefabInstance:
       addedObject: {fileID: 679745923}
     - targetCorrespondingSourceObject: {fileID: 7277802327528778795, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 629373027}
-    - targetCorrespondingSourceObject: {fileID: 7277802327528778795, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 629373035}
-    - targetCorrespondingSourceObject: {fileID: 7277802327528778795, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 629373034}
   m_SourcePrefab: {fileID: 100100000, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
