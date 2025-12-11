@@ -42,7 +42,6 @@ public class MovingTarget : MonoBehaviour
     private float targetSpeed;
     private float currentSpeed;
     private float speedTimer;
-    private bool isSelected = false;
 
     void Awake()
     {
@@ -99,18 +98,11 @@ public class MovingTarget : MonoBehaviour
 
     void Update()
     {
-        if (isSelected) return;
-
         HandleOrbitMovement();
         HandleSpeedVariation();
 
         movementHistory.Enqueue(new Pose(transform.position, transform.rotation));
         HandleVisualMovement();
-    }
-
-    public void OnCaught()
-    {
-        isSelected = true;
     }
 
     void HandleOrbitMovement()
@@ -182,7 +174,7 @@ public class MovingTarget : MonoBehaviour
 
     public void SetHover(bool active)
     {
-        if (isSelected || myRenderer == null) return;
+        if (myRenderer == null) return;
         myRenderer.material.color = active ? highlightColor : originalColor;
     }
 

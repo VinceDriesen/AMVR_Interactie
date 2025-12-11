@@ -1,18 +1,27 @@
 using UnityEngine;
+using System;
+using System.Collections;
 
 public class VisualBallLink : MonoBehaviour
 {
     public MovingTarget myGhost;
 
+    public static event Action<VisualBallLink> OnBallCaptured;
+
     private Renderer myRenderer;
     private Color originalColor;
+
+    // States
     private bool isSlowMo = false;
-    private bool isCaught = false;
+    private bool isQuestTarget = false;
+    private bool isSelected = false;
+    private bool isHovering = false;
 
     [Header("Kleuren")]
     public Color highlightColor = Color.yellow;
-    public Color slowdownColor = Color.cyan;
-    public Color selectedColor = Color.green;
+    public Color selectedColor = Color.green; // Correcte keuze
+    public Color errorColor = Color.red;      // Foute keuze (NIEUW)
+    public Color questTargetColor = Color.blue;
 
     public void Awake()
     {
@@ -25,52 +34,79 @@ public class VisualBallLink : MonoBehaviour
 
     public void SetHover(bool active)
     {
-        if (isCaught || myRenderer == null) return;
+        isHovering = active;
+        UpdateColorState();
 
-        if (active)
-        {
-            myRenderer.material.color = highlightColor;
-            if (myGhost != null) myGhost.SetHover(true);
-        }
-        else
-        {
-            myRenderer.material.color = isSlowMo ? slowdownColor : originalColor;
-            if (myGhost != null) myGhost.SetHover(false);
-        }
+        if (myGhost != null) myGhost.SetHover(active);
     }
 
     public void SetSlowMo(bool active)
     {
-        if (isCaught) return;
-
         isSlowMo = active;
+        UpdateColorState();
 
-        if (myRenderer != null)
+        if (myGhost != null) myGhost.SetSlowMo(active);
+    }
+
+    public void SetQuestTarget(bool active)
+    {
+        isQuestTarget = active;
+        UpdateColorState();
+    }
+
+    private void UpdateColorState()
+    {
+        if (myRenderer == null) return;
+
+        if (isSelected)
         {
-            if (myRenderer.material.color != highlightColor)
+            if (isQuestTarget)
             {
-                myRenderer.material.color = active ? slowdownColor : originalColor;
+                myRenderer.material.color = selectedColor; // Goed (Groen)
+            }
+            else
+            {
+                myRenderer.material.color = errorColor;    // Fout (Rood)
             }
         }
-
-        if (myGhost != null)
+        else if (isHovering)
         {
-            myGhost.SetSlowMo(active);
+            myRenderer.material.color = highlightColor;
+        }
+        else if (isQuestTarget)
+        {
+            myRenderer.material.color = questTargetColor;
+        }
+        else
+        {
+            myRenderer.material.color = originalColor;
         }
     }
 
     public void SelectTarget()
     {
-        if (isCaught) return;
-        isCaught = true;
+        if (isSelected) return;
 
-        if (myRenderer != null) myRenderer.material.color = selectedColor;
+        StartCoroutine(SelectRoutine());
+    }
 
-        if (myGhost != null)
-        {
-            myGhost.OnCaught();
-            //Destroy(myGhost.gameObject, 0.5f);
-        }
-        //Destroy(gameObject, 0.5f);
+    private IEnumerator SelectRoutine()
+    {
+        isSelected = true;
+        UpdateColorState();
+
+        OnBallCaptured?.Invoke(this);
+        yield return new WaitForSeconds(2.0f);
+
+        isSelected = false;
+
+        if (isQuestTarget) isQuestTarget = false;
+
+        UpdateColorState();
+    }
+
+    public MovingTarget GetRealBall()
+    {
+        return myGhost;
     }
 }
