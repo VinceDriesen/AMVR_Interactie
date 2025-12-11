@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6046289650344341796}
   - component: {fileID: -8254527640807531883}
   - component: {fileID: -5691655313797254702}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: VisualBall
   m_TagString: VisualTarget
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -131,10 +131,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!114 &-8254527640807531883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,10 +148,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myGhost: {fileID: -3551746667745290427, guid: 2a20d63a0258efb409f623ecaf14134b, type: 3}
-  selectedColor: {r: 0, g: 1, b: 0, a: 1}
   highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   slowdownColor: {r: 0, g: 1, b: 1, a: 1}
-  ghostColor: {r: 1, g: 1, b: 1, a: 0.5}
 --- !u!120 &-5691655313797254702
 LineRenderer:
   serializedVersion: 2

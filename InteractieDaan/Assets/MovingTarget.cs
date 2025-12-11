@@ -66,7 +66,7 @@ public class MovingTarget : MonoBehaviour
         {
             visualObject = Instantiate(visualPrefab, transform.position, transform.rotation);
             // Verwijder colliders van de visual, anders botst hij met de ghost of triggers!
-            foreach (var c in visualObject.GetComponentsInChildren<Collider>()) Destroy(c);
+            //foreach (var c in visualObject.GetComponentsInChildren<Collider>()) Destroy(c);
 
             visualLinkScript = visualObject.GetComponent<VisualBallLink>();
             if (visualLinkScript != null)

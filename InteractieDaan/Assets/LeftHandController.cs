@@ -59,6 +59,8 @@ public class LeftHandController : MonoBehaviour
             return null;
         }
 
+        lineRenderer.SetPosition(1, endPoint);
+
         return currentFoundObj;
     }
 
@@ -78,6 +80,8 @@ public class LeftHandController : MonoBehaviour
             {
                 if (currentObj is MovingTarget t) t.SetHover(true);
                 if (currentObj is VisualBallLink g) g.SetHover(true);
+
+                Debug.Log("Hovering over: " + currentObj);
 
                 lineRenderer.startColor = Color.yellow;
             }
