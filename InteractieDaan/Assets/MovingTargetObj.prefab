@@ -147,13 +147,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visualPrefab: {fileID: 8478725979629868369, guid: c41fe043ea536b4499abf220a4bf476b, type: 3}
-  slowMoSpeed: 0.001
+  slowdownFactor: 0.01
   catchUpSpeed: 50
   radius: 5
-  currentHeight: 1.5
+  initialHeight: 1.5
   rotationSpeed: 20
   heightWobbleAmount: 0.5
   heightWobbleSpeed: 1
   speedRange: {x: 10, y: 40}
   speedChangeInterval: 3
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   selectedColor: {r: 0, g: 1, b: 0, a: 1}

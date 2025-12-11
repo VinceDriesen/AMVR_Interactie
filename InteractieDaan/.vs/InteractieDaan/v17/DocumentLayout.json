@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C1838DA8-1B67-2334-4A14-E31242F2C01E}|Assembly-CSharp.csproj|c:\\users\\laptop\\downloads\\anaglyph_opgave\\opgave\\amvr_interactie\\interactiedaan\\assets\\movingtarget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1838DA8-1B67-2334-4A14-E31242F2C01E}|Assembly-CSharp.csproj|solutionrelative:assets\\movingtarget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C1838DA8-1B67-2334-4A14-E31242F2C01E}|Assembly-CSharp.csproj|C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\assets\\lefthandcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1838DA8-1B67-2334-4A14-E31242F2C01E}|Assembly-CSharp.csproj|solutionrelative:assets\\lefthandcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C1838DA8-1B67-2334-4A14-E31242F2C01E}|Assembly-CSharp.csproj|C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\assets\\spawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -15,16 +15,16 @@
       "RelativeMoniker": "D:0:0:{C1838DA8-1B67-2334-4A14-E31242F2C01E}|Assembly-CSharp.csproj|solutionrelative:assets\\visualballlink.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1838DA8-1B67-2334-4A14-E31242F2C01E}|Assembly-CSharp.csproj|C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\assets\\visortrigger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1838DA8-1B67-2334-4A14-E31242F2C01E}|Assembly-CSharp.csproj|solutionrelative:assets\\visortrigger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C1838DA8-1B67-2334-4A14-E31242F2C01E}|Assembly-CSharp.csproj|C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\assets\\righthandcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C1838DA8-1B67-2334-4A14-E31242F2C01E}|Assembly-CSharp.csproj|solutionrelative:assets\\righthandcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1838DA8-1B67-2334-4A14-E31242F2C01E}|Assembly-CSharp.csproj|C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\assets\\lefthandcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1838DA8-1B67-2334-4A14-E31242F2C01E}|Assembly-CSharp.csproj|solutionrelative:assets\\lefthandcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C1838DA8-1B67-2334-4A14-E31242F2C01E}|Assembly-CSharp.csproj|C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\assets\\visortrigger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1838DA8-1B67-2334-4A14-E31242F2C01E}|Assembly-CSharp.csproj|solutionrelative:assets\\visortrigger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1838DA8-1B67-2334-4A14-E31242F2C01E}|Assembly-CSharp.csproj|c:\\users\\laptop\\downloads\\anaglyph_opgave\\opgave\\amvr_interactie\\interactiedaan\\assets\\movingtarget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1838DA8-1B67-2334-4A14-E31242F2C01E}|Assembly-CSharp.csproj|solutionrelative:assets\\movingtarget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
@@ -44,7 +44,7 @@
               "RelativeDocumentMoniker": "Assets\\Spawner.cs",
               "ToolTip": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\Assets\\Spawner.cs",
               "RelativeToolTip": "Assets\\Spawner.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAAAE0AAAABAAAAAAAAAA==",
+              "ViewState": "AgIAABkAAAAAAAAAAAAmwEoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-10T18:32:02.557Z",
               "EditorCaption": ""
@@ -57,59 +57,59 @@
               "RelativeDocumentMoniker": "Assets\\VisualBallLink.cs",
               "ToolTip": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\Assets\\VisualBallLink.cs",
               "RelativeToolTip": "Assets\\VisualBallLink.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAAAuwEkAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-10T15:19:56.372Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "RightHandController.cs",
               "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\Assets\\RightHandController.cs",
               "RelativeDocumentMoniker": "Assets\\RightHandController.cs",
               "ToolTip": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\Assets\\RightHandController.cs",
               "RelativeToolTip": "Assets\\RightHandController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAA6wDEAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAA1wDEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-10T14:11:01.625Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "VisorTrigger.cs",
               "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\Assets\\VisorTrigger.cs",
               "RelativeDocumentMoniker": "Assets\\VisorTrigger.cs",
               "ToolTip": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\Assets\\VisorTrigger.cs",
               "RelativeToolTip": "Assets\\VisorTrigger.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-10T13:48:10.438Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "LeftHandController.cs",
               "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\Assets\\LeftHandController.cs",
               "RelativeDocumentMoniker": "Assets\\LeftHandController.cs",
               "ToolTip": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\Assets\\LeftHandController.cs",
               "RelativeToolTip": "Assets\\LeftHandController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGkAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAQwFsAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-10T14:59:33.465Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "MovingTarget.cs",
               "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\Assets\\MovingTarget.cs",
               "RelativeDocumentMoniker": "Assets\\MovingTarget.cs",
               "ToolTip": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieDaan\\Assets\\MovingTarget.cs",
               "RelativeToolTip": "Assets\\MovingTarget.cs",
-              "ViewState": "AgIAALUAAAAAAAAAAAAuwMUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAALEAAAAAAAAAAAAwwH8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-10T13:04:20.118Z",
               "EditorCaption": ""

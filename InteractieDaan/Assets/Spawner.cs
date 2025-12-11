@@ -50,16 +50,13 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    // Debug: Teken de grenzen in de Scene view
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
-        // Teken min radius ringen
         DrawCircle(minRadius, minHeight);
         DrawCircle(minRadius, maxHeight);
 
         Gizmos.color = Color.blue;
-        // Teken max radius ringen
         DrawCircle(maxRadius, minHeight);
         DrawCircle(maxRadius, maxHeight);
     }

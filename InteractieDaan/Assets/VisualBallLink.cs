@@ -2,41 +2,30 @@ using UnityEngine;
 
 public class VisualBallLink : MonoBehaviour
 {
-    // Hierin onthouden we wie de "echte" onzichtbare bal is
     public MovingTarget myGhost;
-    private Renderer myRenderer;
-    private LineRenderer lineRenderer;
-    private bool isHovering = false;
-    private Color originalColor;
 
+    private Renderer myRenderer;
+    private Color originalColor;
+    private bool isSlowMo = false;
+    private bool isCaught = false;
+
+    [Header("Kleuren")]
     public Color highlightColor = Color.yellow;
     public Color slowdownColor = Color.cyan;
+    public Color selectedColor = Color.green;
 
     public void Awake()
     {
         myRenderer = GetComponent<Renderer>();
-        originalColor = myRenderer.material.color;
-
-        lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.positionCount = 2;
-        lineRenderer.startWidth = 0.02f;
-        lineRenderer.endWidth = 0.02f;
-        lineRenderer.enabled = false;
-        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-    }
-
-    public void Update()
-    {
-        if (isHovering)
+        if (myRenderer != null)
         {
-            UpdateLine();
+            originalColor = myRenderer.material.color;
         }
     }
 
     public void SetHover(bool active)
     {
-        isHovering = active;
-        lineRenderer.enabled = active;
+        if (isCaught || myRenderer == null) return;
 
         if (active)
         {
@@ -45,35 +34,43 @@ public class VisualBallLink : MonoBehaviour
         }
         else
         {
-            myRenderer.material.color = originalColor;
+            myRenderer.material.color = isSlowMo ? slowdownColor : originalColor;
             if (myGhost != null) myGhost.SetHover(false);
         }
     }
 
     public void SetSlowMo(bool active)
     {
-        if (myRenderer)
+        if (isCaught) return;
+
+        isSlowMo = active;
+
+        if (myRenderer != null)
         {
-            myRenderer.material.color = active ? slowdownColor : originalColor;
+            if (myRenderer.material.color != highlightColor)
+            {
+                myRenderer.material.color = active ? slowdownColor : originalColor;
+            }
         }
+
         if (myGhost != null)
         {
             myGhost.SetSlowMo(active);
         }
     }
 
-    void UpdateLine()
+    public void SelectTarget()
     {
+        if (isCaught) return;
+        isCaught = true;
+
+        if (myRenderer != null) myRenderer.material.color = selectedColor;
+
         if (myGhost != null)
         {
-            lineRenderer.SetPosition(0, transform.position); // Ghost positie
-            lineRenderer.SetPosition(1, myGhost.transform.position); // Bal positie
+            myGhost.OnCaught();
+            //Destroy(myGhost.gameObject, 0.5f);
         }
-    }
-
-    public MovingTarget GetRealBall()
-    {
-        return myGhost;
+        //Destroy(gameObject, 0.5f);
     }
 }
-

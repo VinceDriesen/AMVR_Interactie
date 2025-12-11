@@ -6,7 +6,7 @@ using UnityEngine;
 public class LeftHandController : MonoBehaviour
 {
     private LineRenderer lineRenderer;
-    private MonoBehaviour lastHoveredObject;
+    private VisualBallLink lastHoveredObject;
 
     [Header("Instellingen")]
     public float rayDistance = 10f;
@@ -25,38 +25,38 @@ public class LeftHandController : MonoBehaviour
 
     void Update()
     {
-        var currentFoundObj = SetRaycastToClosestObject();
+        VisualBallLink currentFoundObj = SetRaycastToClosestObject();
         HandleHover(currentFoundObj);
     }
 
-    private MonoBehaviour SetRaycastToClosestObject()
+    private VisualBallLink SetRaycastToClosestObject()
     {
         lineRenderer.SetPosition(0, transform.position);
+
+        Vector3 endPoint = transform.position + (transform.forward * rayDistance);
+
         RaycastHit[] hits = Physics.RaycastAll(transform.position, transform.forward, rayDistance);
         Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
 
-        MonoBehaviour currentFoundObj = null;
-        Vector3 endPoint = transform.position + (transform.forward * rayDistance);
+        VisualBallLink currentFoundObj = null;
 
         foreach (RaycastHit hit in hits)
         {
+            if (hit.transform == this.transform) continue;
+            
+            VisualBallLink ghost = hit.collider.GetComponentInParent<VisualBallLink>();
+
+            if (ghost != null)
+            {
+                currentFoundObj = ghost;
+                endPoint = hit.point;
+                break;
+            }
+
             if (hit.collider.isTrigger) continue;
 
             endPoint = hit.point;
-            lineRenderer.SetPosition(1, endPoint);
-
-            MovingTarget target = hit.collider.GetComponent<MovingTarget>();
-            if (target != null)
-            {
-                return target;
-            }
-            VisualBallLink ghost = hit.collider.GetComponent<VisualBallLink>();
-            if (ghost != null)
-            {
-                return ghost;
-            }
-
-            return null;
+            break;
         }
 
         lineRenderer.SetPosition(1, endPoint);
@@ -64,25 +64,20 @@ public class LeftHandController : MonoBehaviour
         return currentFoundObj;
     }
 
-    void HandleHover(MonoBehaviour currentObj)
+    void HandleHover(VisualBallLink currentObj)
     {
         if (lastHoveredObject != currentObj)
         {
             // Zet oude uit
             if (lastHoveredObject != null)
             {
-                if (lastHoveredObject is MovingTarget t) t.SetHover(false);
-                if (lastHoveredObject is VisualBallLink g) g.SetHover(false);
+                lastHoveredObject.SetHover(false);
             }
 
             // Zet nieuwe aan
             if (currentObj != null)
             {
-                if (currentObj is MovingTarget t) t.SetHover(true);
-                if (currentObj is VisualBallLink g) g.SetHover(true);
-
-                Debug.Log("Hovering over: " + currentObj);
-
+                currentObj.SetHover(true);
                 lineRenderer.startColor = Color.yellow;
             }
             else
@@ -94,19 +89,12 @@ public class LeftHandController : MonoBehaviour
         }
 
         // Input check voor grijpen (G of Trigger)
-        if (Input.GetAxis("XRI_Right_Grip") > .5f)
+        if (Input.GetAxis("XRI_Left_Grip") > .5f)
         {
-            if (currentObj is MovingTarget target)
+            if (currentObj != null)
             {
-                target.SelectTarget();
-            }
-            else if (currentObj is VisualBallLink ghost)
-            {
-                ghost.GetRealBall().SelectTarget();
+                currentObj.SelectTarget();
             }
         }
     }
 }
-
-
-
