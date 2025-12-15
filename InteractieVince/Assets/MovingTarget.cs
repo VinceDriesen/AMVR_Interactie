@@ -1,4 +1,6 @@
 using UnityEngine;
+using System;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Renderer))]
@@ -18,7 +20,10 @@ public class MovingTarget : MonoBehaviour
     [Header("Interaction Settings")]
     public Color highlightColor = Color.yellow;
     public Color selectedColor = Color.green;
-    public Color wallHitColor = Color.red;
+    public Color errorColor = Color.red;
+    public Color questTargetColor = Color.blue;
+
+    public static event Action<MovingTarget> OnBallCaptured;
 
     private Rigidbody rb;
     private Renderer myRenderer;
@@ -30,7 +35,11 @@ public class MovingTarget : MonoBehaviour
     private float currentSpeed;
     private float speedTimer;
     private float initialHeight;
+
+    private bool isQuestTarget = false;
     private bool isSelected = false;
+    private bool isHovering = false;
+    private bool isHighlighted = false;
 
     // Ghost Referentie
     private GhostBall activeGhost;
@@ -39,8 +48,6 @@ public class MovingTarget : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
-        // BELANGRIJK: Voor orbit movement zetten we physics uit, 
-        // maar we houden de Rigidbody voor de Trigger detectie (WallCatcher).
         rb.useGravity = false;
         rb.isKinematic = true;
 
@@ -48,24 +55,21 @@ public class MovingTarget : MonoBehaviour
         originalColor = myRenderer.material.color;
     }
 
-    // Deze functie wordt aangeroepen door de Spawner om de startwaarden te geven
     public void InitializeOrbit(float startRadius, float startHeight, float startAngle)
     {
         radius = startRadius;
         initialHeight = startHeight;
         angle = startAngle;
 
-        // Zet een random startsnelheid
-        targetSpeed = Random.Range(speedRange.x, speedRange.y);
+        targetSpeed = UnityEngine.Random.Range(speedRange.x, speedRange.y);
         currentSpeed = targetSpeed;
 
-        // Randomize de wobble zodat ze niet allemaal synchroon bewegen
-        heightWobbleSpeed += Random.Range(-0.2f, 0.2f);
+        heightWobbleSpeed += UnityEngine.Random.Range(-0.2f, 0.2f);
     }
 
     void Update()
     {
-        if (isSelected) return; // Stop als we geselecteerd zijn
+        if (isSelected) return;
 
         HandleOrbitMovement();
         HandleSpeedVariation();
@@ -73,42 +77,37 @@ public class MovingTarget : MonoBehaviour
 
     void HandleOrbitMovement()
     {
-        // 1. Update de hoek (draaien rondom origin)
         angle += currentSpeed * Time.deltaTime;
         if (angle > 360f) angle -= 360f;
 
-        // 2. Bereken de golvende hoogte (Sinus golf)
-        // We gebruiken Time.time + radius om variatie te krijgen per baan
         float newY = initialHeight + Mathf.Sin(Time.time * heightWobbleSpeed + radius) * heightWobbleAmount;
 
-        // 3. Zet om van Poolcoördinaten (Hoek & Radius) naar Wereldcoördinaten (X & Z)
-        // Wiskunde: X = Cos(hoek) * straal, Z = Sin(hoek) * straal
         float rad = angle * Mathf.Deg2Rad;
         Vector3 newPos = new Vector3(Mathf.Cos(rad) * radius, newY, Mathf.Sin(rad) * radius);
 
-        // 4. Pas positie toe (Relative aan World Origin 0,0,0)
         transform.position = newPos;
 
-        // 5. Draai de bal zodat hij naar zijn vliegrichting kijkt (optioneel)
         transform.LookAt(new Vector3(newPos.x - Mathf.Sin(rad), newPos.y, newPos.z + Mathf.Cos(rad)));
     }
 
     void HandleSpeedVariation()
     {
-        // Timer om af en toe de snelheid te veranderen (Speed-up / Slow-down)
         speedTimer += Time.deltaTime;
         if (speedTimer > speedChangeInterval)
         {
             speedTimer = 0f;
-            // Kies een nieuwe willekeurige snelheid
-            targetSpeed = Random.Range(speedRange.x, speedRange.y);
-            // Soms (20% kans) doen we een plotse stop of versnelling
-            if (Random.value > 0.8f) targetSpeed *= 1.5f;
+            targetSpeed = UnityEngine.Random.Range(speedRange.x, speedRange.y);
+            if (UnityEngine.Random.value > 0.8f) targetSpeed *= 1.5f;
         }
 
-        // Beweeg de snelheid vloeiend naar het doel (Lerp)
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * 2.0f);
     }
+
+    public void SetQuestTarget(bool active)
+    {
+        isQuestTarget = active;
+        UpdateColorState();
+    }   
 
     public void RegisterGhost(GhostBall ghost)
     {
@@ -118,27 +117,65 @@ public class MovingTarget : MonoBehaviour
 
     public void OnWallPass()
     {
-        originalColor = wallHitColor;
-        if (!isSelected) myRenderer.material.color = wallHitColor;
+        isHighlighted = !isHighlighted;
+        UpdateColorState();
     }
 
     public void SetHover(bool active)
     {
         if (isSelected) return;
-        myRenderer.material.color = active ? highlightColor : originalColor;
+        isHovering = !isHovering;
+        UpdateColorState();
     }
 
     public void SelectTarget()
     {
+        if (isSelected) return;
+        
+        StartCoroutine(SelectRoutine());
+    }
+
+    private IEnumerator SelectRoutine()
+    {
         isSelected = true;
-        myRenderer.material.color = selectedColor;
+        UpdateColorState();
 
-        if (activeGhost != null)
+        OnBallCaptured?.Invoke(this);
+        yield return new WaitForSeconds(2.0f);
+
+        isSelected = false;
+
+        if (isQuestTarget) isQuestTarget = false;
+
+        UpdateColorState();
+    }
+
+    private void UpdateColorState()
+    {
+        if (myRenderer == null) return;
+
+        if (isSelected)
         {
-            Destroy(activeGhost.gameObject);
-            activeGhost = null;
+            if (isQuestTarget)
+            {
+                myRenderer.material.color = selectedColor; // Goed (Groen)
+            }
+            else
+            {
+                myRenderer.material.color = errorColor;    // Fout (Rood)
+            }
         }
-
-        Debug.Log("Orbit Target gevangen!");
+        else if (isHovering)
+        {
+            myRenderer.material.color = highlightColor;
+        }
+        else if (isQuestTarget)
+        {
+            myRenderer.material.color = questTargetColor;
+        }
+        else
+        {
+            myRenderer.material.color = originalColor;
+        }
     }
 }

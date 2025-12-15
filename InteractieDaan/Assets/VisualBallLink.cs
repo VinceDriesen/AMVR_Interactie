@@ -19,8 +19,8 @@ public class VisualBallLink : MonoBehaviour
 
     [Header("Kleuren")]
     public Color highlightColor = Color.yellow;
-    public Color selectedColor = Color.green; // Correcte keuze
-    public Color errorColor = Color.red;      // Foute keuze (NIEUW)
+    public Color selectedColor = Color.green;
+    public Color errorColor = Color.red;
     public Color questTargetColor = Color.blue;
 
     public void Awake()

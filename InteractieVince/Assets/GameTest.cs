@@ -17,8 +17,8 @@ public class GameTest : MonoBehaviour
     public TMP_Text countdownText;
     public Slider slider;
 
-    private List<VisualBallLink> allBalls = new List<VisualBallLink>();
-    private VisualBallLink currentActiveTarget;
+    private List<MovingTarget> allBalls = new List<MovingTarget>();
+    private MovingTarget currentActiveTarget;
     private float startTime;
 
     private bool isSequenceActive = false;
@@ -32,12 +32,13 @@ public class GameTest : MonoBehaviour
 
     void OnEnable()
     {
-        VisualBallLink.OnBallCaptured += HandleBallCaptured;
+        Debug.Log("GameTest ingeschakeld, luisteren naar ballen...");
+        MovingTarget.OnBallCaptured += HandleBallCaptured;
     }
 
     void OnDisable()
     {
-        VisualBallLink.OnBallCaptured -= HandleBallCaptured;
+        MovingTarget.OnBallCaptured -= HandleBallCaptured;
     }
 
     private void Start()
@@ -128,7 +129,7 @@ public class GameTest : MonoBehaviour
         isSequenceActive = false;
     }
 
-    void HandleBallCaptured(VisualBallLink capturedBall)
+    void HandleBallCaptured(MovingTarget capturedBall)
     {
         if (!isRoundActive) return;
 
@@ -162,7 +163,7 @@ public class GameTest : MonoBehaviour
 
     void RefreshBallList()
     {
-        allBalls = FindObjectsOfType<VisualBallLink>()
+        allBalls = FindObjectsOfType<MovingTarget>()
             .Where(b => b != null && b.gameObject.activeInHierarchy)
             .ToList();
 
