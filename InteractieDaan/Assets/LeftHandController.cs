@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LeftHandController : MonoBehaviour
@@ -88,7 +86,7 @@ public class LeftHandController : MonoBehaviour
             lastHoveredObject = currentObj;
         }
 
-        // Input check voor grijpen (G of Trigger)
+        // Input check voor grijpen
         if (Input.GetAxis("XRI_Left_Grip") > .5f)
         {
             if (currentObj != null)

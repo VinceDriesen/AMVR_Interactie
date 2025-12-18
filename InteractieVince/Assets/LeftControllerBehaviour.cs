@@ -4,12 +4,6 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(LineRenderer))]
 public class LeftControllerBehaviour : MonoBehaviour
 {
-    private LineRenderer lineRenderer;
-    private Transform selectedWall;
-    private bool isGrabbing = false;
-
-    private float currentGrabDistance = 0f;
-
     [Header("Instellingen")]
     public float rayDistance = 20f;
     public LayerMask wallLayer;
@@ -23,6 +17,12 @@ public class LeftControllerBehaviour : MonoBehaviour
     public string grabButton = "XRI_Left_Grip";
     public InputActionProperty pushInput;
     public InputActionProperty pullInput;
+
+    private LineRenderer lineRenderer;
+    private Transform selectedWall;
+    private bool isGrabbing = false;
+
+    private float currentGrabDistance = 0f;
 
     void Start()
     {

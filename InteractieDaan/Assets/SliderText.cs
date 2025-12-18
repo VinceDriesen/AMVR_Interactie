@@ -4,8 +4,8 @@ using TMPro;
 
 public class SliderText : MonoBehaviour
 {
-    public Slider slider;            // Sleep je slider hierin
-    public TMP_Text valueText;       // Sleep je TMP Text hierin
+    public Slider slider;
+    public TMP_Text valueText;
 
     void Update()
     {

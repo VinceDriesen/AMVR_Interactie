@@ -4,11 +4,11 @@ using System;
 [RequireComponent(typeof(LineRenderer))]
 public class RightControllerBehaviour : MonoBehaviour
 {
-    private MonoBehaviour lastHoveredObject; // Kan GhostBall OF MovingTarget zijn
-    private LineRenderer lineRenderer;
-
     [Header("Instellingen")]
     public float rayDistance = 100f;
+
+    private MonoBehaviour lastHoveredObject;
+    private LineRenderer lineRenderer;
 
     void Start()
     {
@@ -70,16 +70,16 @@ public class RightControllerBehaviour : MonoBehaviour
             if (lastHoveredObject != null)
             {
                 if (lastHoveredObject is MovingTarget t) t.SetHover(false);
-                if (lastHoveredObject is GhostBall g) g.SetHover(false);
+                else if (lastHoveredObject is GhostBall g) g.SetHover(false);
             }
 
             // Zet nieuwe aan
             if (currentObj != null)
             {
                 if (currentObj is MovingTarget t) t.SetHover(true);
-                if (currentObj is GhostBall g) g.SetHover(true);
+                else if (currentObj is GhostBall g) g.SetHover(true);
 
-                lineRenderer.startColor = Color.yellow; // Feedback dat je iets raakt
+                lineRenderer.startColor = Color.yellow;
             }
             else
             {
@@ -89,16 +89,11 @@ public class RightControllerBehaviour : MonoBehaviour
             lastHoveredObject = currentObj;
         }
 
-        if (Input.GetAxis("XRI_Right_Grip") > .5f) // Voorbeeld input
+        // Check of de bal moet geselecteerd worden
+        if (Input.GetAxis("XRI_Right_Grip") > .5f)
         {
-            if (currentObj is MovingTarget target)
-            {
-                target.SelectTarget();
-            }
-            else if (currentObj is GhostBall ghost)
-            {
-                ghost.GetRealBall().SelectTarget();
-            }
+            if (currentObj is MovingTarget target) target.SelectTarget();
+            else if (currentObj is GhostBall ghost) ghost.GetRealBall().SelectTarget();
         }
     }
 }

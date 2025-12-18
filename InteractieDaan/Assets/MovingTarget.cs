@@ -112,7 +112,7 @@ public class MovingTarget : MonoBehaviour
 
         float newY = initialHeight + Mathf.Sin(Time.time * heightWobbleSpeed + radius) * heightWobbleAmount;
         float rad = angle * Mathf.Deg2Rad;
-        Vector3 newPos = new Vector3(Mathf.Cos(rad) * radius, newY, Mathf.Sin(rad) * radius);
+        Vector3 newPos = new(Mathf.Cos(rad) * radius, newY, Mathf.Sin(rad) * radius);
 
         transform.position = newPos;
         transform.LookAt(new Vector3(newPos.x - Mathf.Sin(rad), newPos.y, newPos.z + Mathf.Cos(rad)));
@@ -139,12 +139,15 @@ public class MovingTarget : MonoBehaviour
         Vector3 targetPosition;
         Quaternion targetRotation;
 
+        // Check of er nog catch up nodig is
         if (movementHistory.Count > 0)
         {
             Pose historyPose = movementHistory.Peek();
+            // Kopieer target positie en rotatie van laatste in queue
             targetPosition = historyPose.position;
             targetRotation = historyPose.rotation;
 
+            // Verwijder alle poses die al dicht genoeg zijn benaderd
             while (movementHistory.Count > 0 && Vector3.Distance(visualObject.transform.position, movementHistory.Peek().position) < 0.05f)
             {
                 movementHistory.Dequeue();
@@ -156,11 +159,13 @@ public class MovingTarget : MonoBehaviour
                 }
             }
         }
+        // Anders plaats visualBall op huidige positie
         else
         {
             transform.GetPositionAndRotation(out targetPosition, out targetRotation);
         }
 
+        // Verplaats visualBall naar target positie, met betrekking tot de snelheid
         visualObject.transform.SetPositionAndRotation(Vector3.MoveTowards(
             visualObject.transform.position,
             targetPosition,

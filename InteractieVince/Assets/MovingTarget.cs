@@ -9,13 +9,13 @@ public class MovingTarget : MonoBehaviour
     [Header("Orbit Settings (Worden overschreven door Spawner)")]
     public float radius = 5f;
     public float currentHeight = 1.5f;
-    public float rotationSpeed = 20f; // Graden per seconde
+    public float rotationSpeed = 20f;
 
     [Header("Variatie Settings")]
-    public float heightWobbleAmount = 0.5f; // Hoeveel hij omhoog/omlaag golft
-    public float heightWobbleSpeed = 1.0f;  // Hoe snel hij golft
-    public Vector2 speedRange = new Vector2(10f, 40f); // Min en Max draaisnelheid
-    public float speedChangeInterval = 3.0f; // Hoe vaak de snelheid verandert
+    public float heightWobbleAmount = 0.5f;
+    public float heightWobbleSpeed = 1.0f;
+    public Vector2 speedRange = new(10f, 40f);
+    public float speedChangeInterval = 3.0f;
 
     [Header("Interaction Settings")]
     public Color highlightColor = Color.yellow;
@@ -29,8 +29,7 @@ public class MovingTarget : MonoBehaviour
     private Renderer myRenderer;
     private Color originalColor;
 
-    // Orbit Variabelen
-    private float angle; // Huidige hoek in de cirkel (0 tot 360)
+    private float angle;
     private float targetSpeed;
     private float currentSpeed;
     private float speedTimer;
@@ -41,7 +40,6 @@ public class MovingTarget : MonoBehaviour
     private bool isHovering = false;
     private bool isHighlighted = false;
 
-    // Ghost Referentie
     private GhostBall activeGhost;
 
     void Awake()
@@ -83,7 +81,7 @@ public class MovingTarget : MonoBehaviour
         float newY = initialHeight + Mathf.Sin(Time.time * heightWobbleSpeed + radius) * heightWobbleAmount;
 
         float rad = angle * Mathf.Deg2Rad;
-        Vector3 newPos = new Vector3(Mathf.Cos(rad) * radius, newY, Mathf.Sin(rad) * radius);
+        Vector3 newPos = new(Mathf.Cos(rad) * radius, newY, Mathf.Sin(rad) * radius);
 
         transform.position = newPos;
 
@@ -124,7 +122,7 @@ public class MovingTarget : MonoBehaviour
     public void SetHover(bool active)
     {
         if (isSelected) return;
-        isHovering = !isHovering;
+        isHovering = active;
         UpdateColorState();
     }
 
@@ -158,11 +156,11 @@ public class MovingTarget : MonoBehaviour
         {
             if (isQuestTarget)
             {
-                myRenderer.material.color = selectedColor; // Goed (Groen)
+                myRenderer.material.color = selectedColor;
             }
             else
             {
-                myRenderer.material.color = errorColor;    // Fout (Rood)
+                myRenderer.material.color = errorColor;
             }
         }
         else if (isHovering)

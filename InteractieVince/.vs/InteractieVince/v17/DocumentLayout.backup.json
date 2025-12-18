@@ -3,12 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|c:\\users\\laptop\\downloads\\anaglyph_opgave\\opgave\\amvr_interactie\\interactievince\\assets\\wallcatcher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|solutionrelative:assets\\wallcatcher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|c:\\users\\laptop\\downloads\\anaglyph_opgave\\opgave\\amvr_interactie\\interactievince\\assets\\gametest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|solutionrelative:assets\\gametest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|c:\\users\\laptop\\downloads\\anaglyph_opgave\\opgave\\amvr_interactie\\interactievince\\assets\\netlauncher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C66B3585-68FB-CD6B-47E6-3C0B6FA62AA9}|Assembly-CSharp.csproj|solutionrelative:assets\\netlauncher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,27 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "WallCatcher.cs",
-              "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\WallCatcher.cs",
-              "RelativeDocumentMoniker": "Assets\\WallCatcher.cs",
-              "ToolTip": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\WallCatcher.cs",
-              "RelativeToolTip": "Assets\\WallCatcher.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAgAAAAAAAAAA==",
+              "Title": "NetLauncher.cs",
+              "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\NetLauncher.cs",
+              "RelativeDocumentMoniker": "Assets\\NetLauncher.cs",
+              "ToolTip": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\NetLauncher.cs",
+              "RelativeToolTip": "Assets\\NetLauncher.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-15T11:29:50.975Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "GameTest.cs",
-              "DocumentMoniker": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\GameTest.cs",
-              "RelativeDocumentMoniker": "Assets\\GameTest.cs",
-              "ToolTip": "C:\\Users\\laptop\\Downloads\\anaglyph_opgave\\opgave\\AMVR_Interactie\\InteractieVince\\Assets\\GameTest.cs",
-              "RelativeToolTip": "Assets\\GameTest.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAgwKEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-15T10:57:33.189Z",
+              "WhenOpened": "2025-12-18T20:17:20.838Z",
               "EditorCaption": ""
             }
           ]

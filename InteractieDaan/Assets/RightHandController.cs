@@ -17,11 +17,6 @@ public class RightHandController : MonoBehaviour
     [Tooltip("Verkleinen")]
     public InputActionProperty pullInput;
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         HandleScaling();

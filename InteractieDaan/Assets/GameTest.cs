@@ -26,7 +26,6 @@ public class GameTest : MonoBehaviour
 
     private int missedCounter = 0;
 
-    // Variabelen om ronde info te onthouden voor de 'Gevonden' tekst
     private int currentRoundIndex = 0;
     private int totalRondesCount = 0;
 
@@ -72,7 +71,7 @@ public class GameTest : MonoBehaviour
 
         for (int i = 0; i < totalRondesCount; i++)
         {
-            currentRoundIndex = i + 1; // Opslaan voor gebruik in HandleBallCaptured
+            currentRoundIndex = i + 1;
 
             if (resultText != null) resultText.text = "";
 

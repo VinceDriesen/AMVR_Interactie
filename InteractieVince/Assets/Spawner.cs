@@ -25,23 +25,19 @@ public class Spawner : MonoBehaviour
 
     void SpawnOrbitingTarget()
     {
-        // 1. Kies willekeurige parameters binnen de grenzen
         float randomRadius = Random.Range(minRadius, maxRadius);
         float randomHeight = Random.Range(minHeight, maxHeight);
         float randomStartAngle = Random.Range(0f, 360f);
 
-        // 2. Bereken startpositie
         float rad = randomStartAngle * Mathf.Deg2Rad;
-        Vector3 startPos = new Vector3(
+        Vector3 startPos = new(
             Mathf.Cos(rad) * randomRadius,
             randomHeight,
             Mathf.Sin(rad) * randomRadius
         );
 
-        // 3. Spawn
         GameObject newTarget = Instantiate(targetPrefab, startPos, Quaternion.identity);
 
-        // 4. Geef de parameters door aan het script op de bal
         MovingTarget movementScript = newTarget.GetComponent<MovingTarget>();
         if (movementScript != null)
         {

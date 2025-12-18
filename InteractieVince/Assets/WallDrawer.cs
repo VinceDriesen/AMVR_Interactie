@@ -13,7 +13,7 @@ public class WallDrawer : MonoBehaviour
     [Header("Instellingen")]
     public float minThickness = 0.05f;
 
-    // Zorg dat deze naam PRECIES overeenkomt met je Layer in Unity
+    [Tooltip("De layer waarop de walls geplaatst worden")]
     public string targetLayerName = "Wall";
 
     private GameObject currentPreview;
@@ -82,31 +82,21 @@ public class WallDrawer : MonoBehaviour
 
             if (wallPrefab != null)
             {
-                // 1. Muur aanmaken
                 GameObject realWall = Instantiate(wallPrefab, finalPos, Quaternion.identity);
                 realWall.transform.localScale = finalScale;
 
-                // 2. Tag Instellen (Voor Manipulatie)
-                // Let op: Tag 'Wall' moet bestaan in Unity Editor!
                 realWall.tag = "Wall";
 
-                // 3. Layer Instellen (Voor Raycast detectie)
                 int layerIndex = LayerMask.NameToLayer(targetLayerName);
 
                 if (layerIndex != -1)
                 {
-                    // We gebruiken een hulpfunctie om de layer op de muur ÉN alle children te zetten
                     SetLayerRecursively(realWall, layerIndex);
-                }
-                else
-                {
-                    Debug.LogWarning($"Let op: De layer '{targetLayerName}' bestaat niet in de Project Settings!");
                 }
             }
         }
     }
 
-    // Hulpfunctie: Zet layer op object en al zijn kinderen (belangrijk voor Colliders!)
     void SetLayerRecursively(GameObject obj, int newLayer)
     {
         if (obj == null) return;

@@ -26,13 +26,11 @@ public class GameTest : MonoBehaviour
 
     private int missedCounter = 0;
 
-    // Variabelen om ronde info te onthouden voor de 'Gevonden' tekst
     private int currentRoundIndex = 0;
     private int totalRondesCount = 0;
 
     void OnEnable()
     {
-        Debug.Log("GameTest ingeschakeld, luisteren naar ballen...");
         MovingTarget.OnBallCaptured += HandleBallCaptured;
     }
 
@@ -73,7 +71,7 @@ public class GameTest : MonoBehaviour
 
         for (int i = 0; i < totalRondesCount; i++)
         {
-            currentRoundIndex = i + 1; // Opslaan voor gebruik in HandleBallCaptured
+            currentRoundIndex = i + 1;
 
             if (resultText != null) resultText.text = "";
 
@@ -142,6 +140,11 @@ public class GameTest : MonoBehaviour
             {
                 string rondeInfo = $"Ronde {currentRoundIndex} / {totalRondesCount}";
                 countdownText.text = $"{rondeInfo}\n<size=150%><color=green>GEVONDEN!\n{duration}s</color></size>";
+                var drawnWalls = FindObjectsOfType<WallCatcher>();
+                foreach (var wall in drawnWalls)
+                {
+                    Debug.Log($"WallCatcher Positie: {wall.transform.position}");
+                }
             }
 
             if (resultText != null) resultText.text = $"Tijd: {duration}s";

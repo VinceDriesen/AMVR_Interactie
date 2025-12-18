@@ -8,20 +8,18 @@ public class VisualBallLink : MonoBehaviour
 
     public static event Action<VisualBallLink> OnBallCaptured;
 
-    private Renderer myRenderer;
-    private Color originalColor;
-
-    // States
-    private bool isSlowMo = false;
-    private bool isQuestTarget = false;
-    private bool isSelected = false;
-    private bool isHovering = false;
-
     [Header("Kleuren")]
     public Color highlightColor = Color.yellow;
     public Color selectedColor = Color.green;
     public Color errorColor = Color.red;
     public Color questTargetColor = Color.blue;
+
+    private Renderer myRenderer;
+    private Color originalColor;
+
+    private bool isQuestTarget = false;
+    private bool isSelected = false;
+    private bool isHovering = false;
 
     public void Awake()
     {
@@ -42,9 +40,6 @@ public class VisualBallLink : MonoBehaviour
 
     public void SetSlowMo(bool active)
     {
-        isSlowMo = active;
-        UpdateColorState();
-
         if (myGhost != null) myGhost.SetSlowMo(active);
     }
 
@@ -62,11 +57,11 @@ public class VisualBallLink : MonoBehaviour
         {
             if (isQuestTarget)
             {
-                myRenderer.material.color = selectedColor; // Goed (Groen)
+                myRenderer.material.color = selectedColor;
             }
             else
             {
-                myRenderer.material.color = errorColor;    // Fout (Rood)
+                myRenderer.material.color = errorColor;
             }
         }
         else if (isHovering)
