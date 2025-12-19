@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.XR;
 
 [RequireComponent(typeof(Rigidbody))]
 public class MovingTarget : MonoBehaviour
@@ -43,6 +44,8 @@ public class MovingTarget : MonoBehaviour
     private float currentSpeed;
     private float speedTimer;
 
+    private UnityEngine.XR.InputDevice rightController;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -57,6 +60,18 @@ public class MovingTarget : MonoBehaviour
         }
 
         SpawnVisualBall();
+    }
+
+    private void Start()
+    {
+        var rightHandDevices = new List<UnityEngine.XR.InputDevice>();
+
+        InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, rightHandDevices);
+
+        if (rightHandDevices.Count > 0)
+        {
+            rightController = rightHandDevices[0];
+        }
     }
 
     void SpawnVisualBall()
@@ -100,6 +115,11 @@ public class MovingTarget : MonoBehaviour
     {
         HandleOrbitMovement();
         HandleSpeedVariation();
+
+        if(isInVisor)
+        {
+            VibrateController(rightController, 0.2f, 150f, Time.deltaTime);
+        }
 
         movementHistory.Enqueue(new Pose(transform.position, transform.rotation));
         HandleVisualMovement();
@@ -186,5 +206,10 @@ public class MovingTarget : MonoBehaviour
     public void SetSlowMo(bool active)
     {
         isInVisor = active;
+    }
+
+    void VibrateController(InputDevice controller, float amplitude, float frequency, float duration)
+    {
+        controller.SendHapticImpulse(0, amplitude, duration);
     }
 }
