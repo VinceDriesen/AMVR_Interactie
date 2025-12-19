@@ -30,7 +30,7 @@ public class WallCatcher : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
         }
 
-        var rightHandDevices = new List<UnityEngine.XR.InputDevice>()
+        var rightHandDevices = new List<UnityEngine.XR.InputDevice>();
 
         InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, rightHandDevices);
 
