@@ -14,6 +14,10 @@ public class VisualBallLink : MonoBehaviour
     public Color errorColor = Color.red;
     public Color questTargetColor = Color.blue;
 
+    [Header("Geluid")]
+    public AudioClip passSound;
+    private AudioSource audioSource;
+
     private Renderer myRenderer;
     private Color originalColor;
 
@@ -28,6 +32,17 @@ public class VisualBallLink : MonoBehaviour
         {
             originalColor = myRenderer.material.color;
         }
+    }
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.volume = 1.0f;
+        audioSource.mute = false;
     }
 
     public void SetHover(bool active)
@@ -88,6 +103,10 @@ public class VisualBallLink : MonoBehaviour
     private IEnumerator SelectRoutine()
     {
         isSelected = true;
+        if (passSound != null && isQuestTarget)
+        {
+            audioSource.PlayOneShot(passSound);
+        }
         UpdateColorState();
 
         OnBallCaptured?.Invoke(this);

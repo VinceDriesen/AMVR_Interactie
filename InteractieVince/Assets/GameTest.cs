@@ -169,7 +169,6 @@ public class GameTest : MonoBehaviour
     void RemoveGhostBalls()
     {
         var allGhostBalls = FindObjectsOfType<GhostBall>();
-        Debug.Log(allGhostBalls);
         foreach(var ghostBall in allGhostBalls)
             Destroy(ghostBall.gameObject);
     }

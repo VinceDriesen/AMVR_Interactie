@@ -119,3 +119,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostPrefab: {fileID: 8478725979629868369, guid: 541d4578e5a9eb24ab3becfb9bb413fd, type: 3}
+  hapticIntensity: 0.4
+  hapticDuration: 0.15
+  passSound: {fileID: 8300000, guid: ecc13c76fa374986906eb3a9b9a08046, type: 3}

@@ -149,7 +149,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myGhost: {fileID: -3551746667745290427, guid: 2a20d63a0258efb409f623ecaf14134b, type: 3}
   highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  slowdownColor: {r: 0, g: 1, b: 1, a: 1}
+  selectedColor: {r: 0, g: 1, b: 0, a: 1}
+  errorColor: {r: 1, g: 0, b: 0, a: 1}
+  questTargetColor: {r: 0, g: 0, b: 1, a: 1}
+  passSound: {fileID: 8300000, guid: ecc13c76fa374986906eb3a9b9a08046, type: 3}
 --- !u!120 &-5691655313797254702
 LineRenderer:
   serializedVersion: 2

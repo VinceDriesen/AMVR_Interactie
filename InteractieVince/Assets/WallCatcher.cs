@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Inputs.Haptics;
 
 public class WallCatcher : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class WallCatcher : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
         }
 
-        var rightHandDevices = new List<UnityEngine.XR.InputDevice>();
+        var rightHandDevices = new List<UnityEngine.XR.InputDevice>()
 
         InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, rightHandDevices);
 
@@ -101,5 +102,5 @@ public class WallCatcher : MonoBehaviour
         
         if (rightController != null)
             rightController.SendHapticImpulse((uint)hapticIntensity, hapticDuration);
-    }
+    }   
 }
