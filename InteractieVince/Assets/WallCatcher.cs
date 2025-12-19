@@ -1,13 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class WallCatcher : MonoBehaviour
 {
     public GameObject ghostPrefab;
-
-    [Header("XR Feedback Instellingen")]
-    public XRBaseController leftController;
-    public XRBaseController rightController;
     
     [Range(0, 1)] public float hapticIntensity = 0.4f;
     public float hapticDuration = 0.15f;
@@ -16,7 +14,12 @@ public class WallCatcher : MonoBehaviour
     public AudioClip passSound;
     private AudioSource audioSource;
 
+    private bool isMoving = false;
+
     private bool hasCaught = false; // Om bij te houden of er al een bal is geweest
+
+    private UnityEngine.XR.InputDevice leftController;
+    private UnityEngine.XR.InputDevice rightController;
 
     void Start()
     {
@@ -25,10 +28,29 @@ public class WallCatcher : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
+
+        var rightHandDevices = new List<UnityEngine.XR.InputDevice>();
+
+        InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, rightHandDevices);
+
+        if (rightHandDevices.Count > 0)
+        {
+            rightController = rightHandDevices[0];
+        }
+
+        var leftHandDevices = new List<UnityEngine.XR.InputDevice>();
+
+        InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, leftHandDevices);
+
+        if (leftHandDevices.Count > 0)
+        {
+            leftController = leftHandDevices[0];
+        }
     }
 
     void OnTriggerExit(Collider other)
     {
+        if (isMoving) return;
         // Als we al een bal hebben gepakt, doen we niets meer
         if (hasCaught) return;
 
@@ -67,12 +89,17 @@ public class WallCatcher : MonoBehaviour
         }
     }
 
+    public void setMoving(bool active)
+    {
+        isMoving = active;
+    }
+
     private void TriggerHaptics()
     {
         if (leftController != null)
-            leftController.SendHapticImpulse(hapticIntensity, hapticDuration);
+            leftController.SendHapticImpulse((uint)hapticIntensity, hapticDuration);
         
         if (rightController != null)
-            rightController.SendHapticImpulse(hapticIntensity, hapticDuration);
+            rightController.SendHapticImpulse((uint)hapticIntensity, hapticDuration);
     }
 }

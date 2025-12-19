@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(LineRenderer))]
@@ -19,7 +19,7 @@ public class LeftControllerBehaviour : MonoBehaviour
     public InputActionProperty pullInput;
 
     private LineRenderer lineRenderer;
-    private Transform selectedWall;
+    private GameObject selectedWall;
     private bool isGrabbing = false;
 
     private float currentGrabDistance = 0f;
@@ -50,7 +50,7 @@ public class LeftControllerBehaviour : MonoBehaviour
         if (isGrabbing && selectedWall != null)
         {
             HandleMovement();
-            DrawLineToTarget(selectedWall.position);
+            DrawLineToTarget(selectedWall.transform.position);
         }
         else
         {
@@ -74,7 +74,7 @@ public class LeftControllerBehaviour : MonoBehaviour
 
                 if (gripJustPressed && !isGrabbing)
                 {
-                    GrabWall(hit.transform, hit.distance);
+                    GrabWall(hit.collider.gameObject, hit.distance);
                 }
             }
             else if (hit.collider.CompareTag("WallCatcher"))
@@ -96,10 +96,11 @@ public class LeftControllerBehaviour : MonoBehaviour
         }
     }
 
-    void GrabWall(Transform wall, float distance)
+    void GrabWall(GameObject wall, float distance)
     {
         isGrabbing = true;
         selectedWall = wall;
+        selectedWall.GetComponent<WallCatcher>().setMoving(true);
         currentGrabDistance = distance;
 
         lineRenderer.startColor = Color.green;
@@ -109,6 +110,7 @@ public class LeftControllerBehaviour : MonoBehaviour
     void ReleaseWall()
     {
         isGrabbing = false;
+        selectedWall.GetComponent<WallCatcher>().setMoving(false);
         selectedWall = null;
         lineRenderer.startColor = Color.red;
         lineRenderer.endColor = Color.red;
@@ -131,7 +133,7 @@ public class LeftControllerBehaviour : MonoBehaviour
         currentGrabDistance = Mathf.Clamp(currentGrabDistance, 0.5f, rayDistance);
 
         Vector3 newPosition = transform.position + (transform.forward * currentGrabDistance);
-        selectedWall.position = newPosition;
+        selectedWall.transform.position = newPosition;
     }
 
     void DrawLineToTarget(Vector3 targetPos)

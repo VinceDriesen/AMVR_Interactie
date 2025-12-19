@@ -155,6 +155,8 @@ public class GameTest : MonoBehaviour
             Debug.Log($"<color=green>Ronde Voltooid in {duration}s. Missers: {missedCounter}</color>");
             Debug.Log($"DATA: BalPos:{balPos.position} | HeadPos:{playerHead.position} | HeadRot:{playerHead.eulerAngles}");
 
+            RemoveGhostBalls();
+
             currentActiveTarget = null;
             isRoundActive = false;
         }
@@ -162,6 +164,14 @@ public class GameTest : MonoBehaviour
         {
             missedCounter++;
         }
+    }
+
+    void RemoveGhostBalls()
+    {
+        var allGhostBalls = FindObjectsOfType<GhostBall>();
+        Debug.Log(allGhostBalls);
+        foreach(var ghostBall in allGhostBalls)
+            Destroy(ghostBall.gameObject);
     }
 
     void RefreshBallList()
