@@ -1,13 +1,13 @@
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit; // Vereist voor de trillingen
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class WallCatcher : MonoBehaviour
 {
     public GameObject ghostPrefab;
 
     [Header("XR Feedback Instellingen")]
-    public ActionBasedController leftController;
-    public ActionBasedController rightController;
+    public XRBaseController leftController;
+    public XRBaseController rightController;
     
     [Range(0, 1)] public float hapticIntensity = 0.4f;
     public float hapticDuration = 0.15f;
@@ -16,9 +16,10 @@ public class WallCatcher : MonoBehaviour
     public AudioClip passSound;
     private AudioSource audioSource;
 
+    private bool hasCaught = false; // Om bij te houden of er al een bal is geweest
+
     void Start()
     {
-        // Zorg dat er een AudioSource is voor het geluidje
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null) 
         {
@@ -28,23 +29,28 @@ public class WallCatcher : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
+        // Als we al een bal hebben gepakt, doen we niets meer
+        if (hasCaught) return;
+
         MovingTarget target = other.GetComponent<MovingTarget>();
 
-        // Check of het wel echt een target is
         if (target != null)
         {
+            // Zet op true zodat volgende ballen worden genegeerd
+            hasCaught = true;
+
             target.OnWallPass();
 
-            // 1. Speel geluid af
+            // 1. Geluid
             if (passSound != null)
             {
                 audioSource.PlayOneShot(passSound);
             }
 
-            // 2. Laat controllers trillen
+            // 2. Trilling
             TriggerHaptics();
 
-            // 3. Bestaande GhostPrefab logica
+            // 3. GhostPrefab
             if (ghostPrefab != null)
             {
                 GameObject ghostObj = Instantiate(ghostPrefab, other.transform.position, Quaternion.identity);
@@ -55,6 +61,9 @@ public class WallCatcher : MonoBehaviour
                     ghostScript.Setup(target);
                 }
             }
+
+            // --- NIEUW: Zelfvernietiging na 2 seconden ---
+            Destroy(gameObject, 2.0f);
         }
     }
 
