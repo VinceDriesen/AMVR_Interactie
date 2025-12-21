@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class WallDrawer : MonoBehaviour
 {
-    [Header("Wat tekenen we?")]
+    [Header("Prefabs")]
     public GameObject wallPrefab;
     public GameObject previewPrefab;
 
@@ -26,19 +26,19 @@ public class WallDrawer : MonoBehaviour
         {
             StartDrawing();
         }
+        else if (drawButton.action.WasReleasedThisFrame())
+        {
+            FinishDrawing();
+        }
 
         if (isDrawing)
         {
             UpdatePreview();
         }
 
-        if (drawButton.action.WasReleasedThisFrame())
-        {
-            FinishDrawing();
-        }
     }
 
-    void StartDrawing()
+    private void StartDrawing()
     {
         isDrawing = true;
         startPoint = transform.position;
@@ -49,7 +49,7 @@ public class WallDrawer : MonoBehaviour
         }
     }
 
-    void UpdatePreview()
+    private void UpdatePreview()
     {
         Vector3 currentPoint = transform.position;
         Vector3 centerPosition = (startPoint + currentPoint) / 2f;
@@ -69,7 +69,7 @@ public class WallDrawer : MonoBehaviour
         }
     }
 
-    void FinishDrawing()
+    private void FinishDrawing()
     {
         isDrawing = false;
 
@@ -97,7 +97,7 @@ public class WallDrawer : MonoBehaviour
         }
     }
 
-    void SetLayerRecursively(GameObject obj, int newLayer)
+    private void SetLayerRecursively(GameObject obj, int newLayer)
     {
         if (obj == null) return;
 

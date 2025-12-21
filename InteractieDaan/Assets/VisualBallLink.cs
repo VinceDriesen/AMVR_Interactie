@@ -8,7 +8,7 @@ public class VisualBallLink : MonoBehaviour
 
     public static event Action<VisualBallLink> OnBallCaptured;
 
-    [Header("Kleuren")]
+    [Header("Interaction Settings")]
     public Color highlightColor = Color.yellow;
     public Color selectedColor = Color.green;
     public Color errorColor = Color.red;
@@ -117,10 +117,5 @@ public class VisualBallLink : MonoBehaviour
         if (isQuestTarget) isQuestTarget = false;
 
         UpdateColorState();
-    }
-
-    public MovingTarget GetRealBall()
-    {
-        return myGhost;
     }
 }

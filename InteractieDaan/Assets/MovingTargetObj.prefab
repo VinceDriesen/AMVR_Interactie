@@ -154,5 +154,5 @@ MonoBehaviour:
   rotationSpeed: 20
   heightWobbleAmount: 0.5
   heightWobbleSpeed: 1
-  speedRange: {x: 10, y: 40}
+  speedRange: {x: 20, y: 80}
   speedChangeInterval: 3

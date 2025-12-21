@@ -6,14 +6,9 @@ using System.Collections;
 [RequireComponent(typeof(Renderer))]
 public class MovingTarget : MonoBehaviour
 {
-    [Header("Orbit Settings (Worden overschreven door Spawner)")]
-    public float radius = 5f;
-    public float currentHeight = 1.5f;
-    public float rotationSpeed = 20f;
-
     [Header("Variatie Settings")]
-    public float heightWobbleAmount = 0.5f;
-    public float heightWobbleSpeed = 1.0f;
+    public float heightDifference = 0.5f;
+    public float heightDifferenceSpeed = 1.0f;
     public Vector2 speedRange = new(10f, 40f);
     public float speedChangeInterval = 3.0f;
 
@@ -23,6 +18,10 @@ public class MovingTarget : MonoBehaviour
     public Color errorColor = Color.red;
     public Color questTargetColor = Color.blue;
 
+    [Header("Geluid")]
+    public AudioClip passSound;
+    private AudioSource audioSource;
+
     public static event Action<MovingTarget> OnBallCaptured;
 
     private Rigidbody rb;
@@ -30,6 +29,7 @@ public class MovingTarget : MonoBehaviour
     private Color originalColor;
 
     private float angle;
+    private float radius = 5f;
     private float targetSpeed;
     private float currentSpeed;
     private float speedTimer;
@@ -53,16 +53,15 @@ public class MovingTarget : MonoBehaviour
         originalColor = myRenderer.material.color;
     }
 
-    public void InitializeOrbit(float startRadius, float startHeight, float startAngle)
+    void Start()
     {
-        radius = startRadius;
-        initialHeight = startHeight;
-        angle = startAngle;
-
-        targetSpeed = UnityEngine.Random.Range(speedRange.x, speedRange.y);
-        currentSpeed = targetSpeed;
-
-        heightWobbleSpeed += UnityEngine.Random.Range(-0.2f, 0.2f);
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.volume = 1.0f;
+        audioSource.mute = false;
     }
 
     void Update()
@@ -73,12 +72,22 @@ public class MovingTarget : MonoBehaviour
         HandleSpeedVariation();
     }
 
-    void HandleOrbitMovement()
+    public void InitializeOrbit(float startRadius)
+    {
+        radius = startRadius;
+
+        targetSpeed = UnityEngine.Random.Range(speedRange.x, speedRange.y);
+        currentSpeed = targetSpeed;
+
+        heightDifferenceSpeed += UnityEngine.Random.Range(-0.2f, 0.2f);
+    }
+
+    private void HandleOrbitMovement()
     {
         angle += currentSpeed * Time.deltaTime;
         if (angle > 360f) angle -= 360f;
 
-        float newY = initialHeight + Mathf.Sin(Time.time * heightWobbleSpeed + radius) * heightWobbleAmount;
+        float newY = initialHeight + Mathf.Sin(Time.time * heightDifferenceSpeed + radius) * heightDifference;
 
         float rad = angle * Mathf.Deg2Rad;
         Vector3 newPos = new(Mathf.Cos(rad) * radius, newY, Mathf.Sin(rad) * radius);
@@ -88,7 +97,7 @@ public class MovingTarget : MonoBehaviour
         transform.LookAt(new Vector3(newPos.x - Mathf.Sin(rad), newPos.y, newPos.z + Mathf.Cos(rad)));
     }
 
-    void HandleSpeedVariation()
+    private void HandleSpeedVariation()
     {
         speedTimer += Time.deltaTime;
         if (speedTimer > speedChangeInterval)
@@ -121,7 +130,6 @@ public class MovingTarget : MonoBehaviour
 
     public void SetHover(bool active)
     {
-        if (isSelected) return;
         isHovering = active;
         UpdateColorState();
     }
@@ -137,6 +145,11 @@ public class MovingTarget : MonoBehaviour
     {
         isSelected = true;
         UpdateColorState();
+
+        if (passSound != null && isQuestTarget)
+        {
+            audioSource.PlayOneShot(passSound);
+        }
 
         OnBallCaptured?.Invoke(this);
         yield return new WaitForSeconds(2.0f);

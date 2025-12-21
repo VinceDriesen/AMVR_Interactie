@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class LeftHandController : MonoBehaviour
 {
-    private LineRenderer lineRenderer;
-    private VisualBallLink lastHoveredObject;
-
     [Header("Instellingen")]
     public float rayDistance = 10f;
+    public string grabButton = "XRI_Left_Grip";
+
+    private LineRenderer lineRenderer;
+    private VisualBallLink lastHoveredObject;
 
     void Start()
     {
@@ -25,6 +26,7 @@ public class LeftHandController : MonoBehaviour
     {
         VisualBallLink currentFoundObj = SetRaycastToClosestObject();
         HandleHover(currentFoundObj);
+        CheckSelection(currentFoundObj);
     }
 
     private VisualBallLink SetRaycastToClosestObject()
@@ -62,7 +64,7 @@ public class LeftHandController : MonoBehaviour
         return currentFoundObj;
     }
 
-    void HandleHover(VisualBallLink currentObj)
+    private void HandleHover(VisualBallLink currentObj)
     {
         if (lastHoveredObject != currentObj)
         {
@@ -71,13 +73,13 @@ public class LeftHandController : MonoBehaviour
             {
                 lastHoveredObject.SetHover(false);
             }
-
             // Zet nieuwe aan
             if (currentObj != null)
             {
                 currentObj.SetHover(true);
                 lineRenderer.startColor = Color.yellow;
             }
+            // Geen nieuwe geselecteerd 
             else
             {
                 lineRenderer.startColor = Color.red;
@@ -85,13 +87,15 @@ public class LeftHandController : MonoBehaviour
 
             lastHoveredObject = currentObj;
         }
+    }
 
-        // Input check voor grijpen
-        if (Input.GetAxis("XRI_Left_Grip") > .5f)
+    private void CheckSelection(VisualBallLink currentObject)
+    {
+        if (Input.GetAxis(grabButton) > .5f)
         {
-            if (currentObj != null)
+            if (currentObject != null)
             {
-                currentObj.SelectTarget();
+                currentObject.SelectTarget();
             }
         }
     }

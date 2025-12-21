@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
-using UnityEngine.XR.Interaction.Toolkit;
-using UnityEngine.XR.Interaction.Toolkit.Inputs.Haptics;
 
 public class WallCatcher : MonoBehaviour
 {
@@ -17,10 +15,8 @@ public class WallCatcher : MonoBehaviour
 
     private bool isMoving = false;
 
-    private bool hasCaught = false; // Om bij te houden of er al een bal is geweest
-
-    private UnityEngine.XR.InputDevice leftController;
-    private UnityEngine.XR.InputDevice rightController;
+    private InputDevice leftController;
+    private InputDevice rightController;
 
     void Start()
     {
@@ -30,7 +26,7 @@ public class WallCatcher : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
         }
 
-        var rightHandDevices = new List<UnityEngine.XR.InputDevice>();
+        var rightHandDevices = new List<InputDevice>();
 
         InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, rightHandDevices);
 
@@ -39,7 +35,7 @@ public class WallCatcher : MonoBehaviour
             rightController = rightHandDevices[0];
         }
 
-        var leftHandDevices = new List<UnityEngine.XR.InputDevice>();
+        var leftHandDevices = new List<InputDevice>();
 
         InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller, leftHandDevices);
 
@@ -52,28 +48,15 @@ public class WallCatcher : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         if (isMoving) return;
-        // Als we al een bal hebben gepakt, doen we niets meer
-        if (hasCaught) return;
 
         MovingTarget target = other.GetComponent<MovingTarget>();
 
         if (target != null)
         {
-            // Zet op true zodat volgende ballen worden genegeerd
-            hasCaught = true;
 
             target.OnWallPass();
-
-            // 1. Geluid
-            if (passSound != null)
-            {
-                audioSource.PlayOneShot(passSound);
-            }
-
-            // 2. Trilling
             TriggerHaptics();
 
-            // 3. GhostPrefab
             if (ghostPrefab != null)
             {
                 GameObject ghostObj = Instantiate(ghostPrefab, other.transform.position, Quaternion.identity);
@@ -85,12 +68,11 @@ public class WallCatcher : MonoBehaviour
                 }
             }
 
-            // --- NIEUW: Zelfvernietiging na 2 seconden ---
             Destroy(gameObject, 2.0f);
         }
     }
 
-    public void setMoving(bool active)
+    public void SetMoving(bool active)
     {
         isMoving = active;
     }
@@ -98,9 +80,13 @@ public class WallCatcher : MonoBehaviour
     private void TriggerHaptics()
     {
         if (leftController != null)
+        {
             leftController.SendHapticImpulse((uint)hapticIntensity, hapticDuration);
+        }
         
         if (rightController != null)
+        {
             rightController.SendHapticImpulse((uint)hapticIntensity, hapticDuration);
+        }
     }   
 }

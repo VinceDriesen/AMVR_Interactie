@@ -24,13 +24,13 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    void SpawnOrbitingTarget()
+    private void SpawnOrbitingTarget()
     {
         float randomRadius = Random.Range(minRadius, maxRadius);
         float randomHeight = Random.Range(minHeight, maxHeight);
         float randomStartAngle = Random.Range(0f, 360f);
-
         float rad = randomStartAngle * Mathf.Deg2Rad;
+
         Vector3 startPos = new(
             Mathf.Cos(rad) * randomRadius,
             randomHeight,
@@ -42,7 +42,7 @@ public class Spawner : MonoBehaviour
         MovingTarget movementScript = newTarget.GetComponent<MovingTarget>();
         if (movementScript != null)
         {
-            movementScript.InitializeOrbit(randomRadius, randomHeight, randomStartAngle);
+            movementScript.InitializeOrbit(randomRadius);
         }
     }
 
@@ -57,7 +57,7 @@ public class Spawner : MonoBehaviour
         DrawCircle(maxRadius, maxHeight);
     }
 
-    void DrawCircle(float r, float y)
+    private void DrawCircle(float r, float y)
     {
         Vector3 prevPos = new(Mathf.Cos(0) * r, y, Mathf.Sin(0) * r);
         for (int i = 1; i <= 360; i += 10)

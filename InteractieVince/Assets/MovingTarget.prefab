@@ -146,11 +146,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afa768bd24526b942b861603ed898040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpeed: 5
-  maxSpeed: 15
-  moveOnGroundOnly: 1
-  stuckCheckInterval: 0.5
-  minMoveDistance: 0.1
+  radius: 5
+  currentHeight: 1.5
+  rotationSpeed: 20
+  heightWobbleAmount: 0.5
+  heightWobbleSpeed: 1
+  speedRange: {x: 10, y: 40}
+  speedChangeInterval: 3
   highlightColor: {r: 0.015686274, g: 1, b: 0.928078, a: 1}
   selectedColor: {r: 0, g: 1, b: 0, a: 1}
-  wallHitColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  errorColor: {r: 1, g: 0, b: 0, a: 1}
+  questTargetColor: {r: 0, g: 0, b: 1, a: 1}

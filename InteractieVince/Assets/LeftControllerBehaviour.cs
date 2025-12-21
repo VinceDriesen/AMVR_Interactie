@@ -20,8 +20,8 @@ public class LeftControllerBehaviour : MonoBehaviour
 
     private LineRenderer lineRenderer;
     private GameObject selectedWall;
-    private bool isGrabbing = false;
 
+    private bool isGrabbing = false;
     private float currentGrabDistance = 0f;
 
     void Start()
@@ -31,7 +31,6 @@ public class LeftControllerBehaviour : MonoBehaviour
         lineRenderer.startWidth = 0.01f;
         lineRenderer.endWidth = 0.01f;
         lineRenderer.useWorldSpace = true;
-
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.startColor = Color.red;
         lineRenderer.endColor = Color.red;
@@ -58,7 +57,7 @@ public class LeftControllerBehaviour : MonoBehaviour
         }
     }
 
-    void ScanForWalls(bool gripJustPressed)
+    private void ScanForWalls(bool gripJustPressed)
     {
         lineRenderer.SetPosition(0, transform.position);
         RaycastHit hit;
@@ -96,27 +95,27 @@ public class LeftControllerBehaviour : MonoBehaviour
         }
     }
 
-    void GrabWall(GameObject wall, float distance)
+    private void GrabWall(GameObject wall, float distance)
     {
         isGrabbing = true;
         selectedWall = wall;
-        selectedWall.GetComponent<WallCatcher>().setMoving(true);
+        selectedWall.GetComponent<WallCatcher>().SetMoving(true);
         currentGrabDistance = distance;
 
         lineRenderer.startColor = Color.green;
         lineRenderer.endColor = Color.green;
     }
 
-    void ReleaseWall()
+    private void ReleaseWall()
     {
         isGrabbing = false;
-        selectedWall.GetComponent<WallCatcher>().setMoving(false);
+        selectedWall.GetComponent<WallCatcher>().SetMoving(false);
         selectedWall = null;
         lineRenderer.startColor = Color.red;
         lineRenderer.endColor = Color.red;
     }
 
-    void HandleMovement()
+    private void HandleMovement()
     {
         bool tryingToPush = pushInput.action.IsPressed();
         bool tryingToPull = pullInput.action.IsPressed();
@@ -136,7 +135,7 @@ public class LeftControllerBehaviour : MonoBehaviour
         selectedWall.transform.position = newPosition;
     }
 
-    void DrawLineToTarget(Vector3 targetPos)
+    private void DrawLineToTarget(Vector3 targetPos)
     {
         lineRenderer.SetPosition(0, transform.position);
         lineRenderer.SetPosition(1, targetPos);

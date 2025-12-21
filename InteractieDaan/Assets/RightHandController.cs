@@ -6,6 +6,7 @@ using UnityEngine.XR;
 public class RightHandController : MonoBehaviour
 {
     [Header("Instellingen")]
+    [Tooltip("Object dat geschaald wordt (De Cone)")]
     public GameObject cone;
 
     [Header("Schaal Instellingen")]
@@ -24,7 +25,7 @@ public class RightHandController : MonoBehaviour
         HandleScaling();
     }
 
-    void HandleScaling()
+    private void HandleScaling()
     {
         bool tryingToEnlarge = pullInput.action.IsPressed();
         bool tryingToShrink = pushInput.action.IsPressed();

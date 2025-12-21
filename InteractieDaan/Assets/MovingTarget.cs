@@ -8,27 +8,21 @@ public class MovingTarget : MonoBehaviour
     [Header("Ghost Settings")]
     [Tooltip("Prefab voor de zichtbare bal")]
     public GameObject visualPrefab;
-
     [Tooltip("Factor waarmee de bal vertraagt (0.1 = 10% snelheid)")]
     [Range(0.01f, 1f)]
     public float slowdownFactor = 0.2f;
-
     [Tooltip("Maximale inhaalsnelheid van de visuele bal")]
     public float catchUpSpeed = 50f;
 
-    [Header("Orbit Settings")]
-    public float radius = 5f;
-    public float initialHeight = 1.5f;
-    public float rotationSpeed = 20f;
-
     [Header("Variatie Settings")]
-    public float heightWobbleAmount = 0.5f;
-    public float heightWobbleSpeed = 1.0f;
-    public Vector2 speedRange = new Vector2(10f, 40f);
+    public float heightDifference = 0.5f;
+    public float heightDifferenceSpeed = 1.0f;
+    public Vector2 speedRange = new(10f, 40f);
     public float speedChangeInterval = 3.0f;
 
-    private Color highlightColor = Color.yellow;
-    private Color originalColor = Color.white;
+    [Header("Interaction Settings")]
+    public Color highlightColor = Color.yellow;
+    public Color originalColor = Color.white;
 
     private Rigidbody rb;
     private Renderer myRenderer;
@@ -36,10 +30,12 @@ public class MovingTarget : MonoBehaviour
     private VisualBallLink visualLinkScript;
     private GameObject visualObject;
 
-    private Queue<Pose> movementHistory = new Queue<Pose>();
+    private Queue<Pose> movementHistory = new();
     private bool isInVisor = false;
 
     private float angle;
+    private float radius;
+    private float initialHeight;
     private float targetSpeed;
     private float currentSpeed;
     private float speedTimer;
@@ -60,13 +56,21 @@ public class MovingTarget : MonoBehaviour
         SpawnVisualBall();
     }
 
-    void SpawnVisualBall()
+    void Update()
+    {
+        HandleOrbitMovement();
+        HandleSpeedVariation();
+
+        movementHistory.Enqueue(new Pose(transform.position, transform.rotation));
+        HandleVisualMovement();
+    }
+
+    private void SpawnVisualBall()
     {
         if (visualPrefab != null)
         {
             visualObject = Instantiate(visualPrefab, transform.position, transform.rotation);
 
-            // Trigger & Physics setup
             foreach (var c in visualObject.GetComponentsInChildren<Collider>()) c.isTrigger = true;
 
             Rigidbody visualRb = visualObject.GetComponent<Rigidbody>();
@@ -74,7 +78,6 @@ public class MovingTarget : MonoBehaviour
             visualRb.useGravity = false;
             visualRb.isKinematic = true;
 
-            // Link leggen
             visualLinkScript = visualObject.GetComponent<VisualBallLink>();
             if (visualLinkScript != null)
             {
@@ -87,31 +90,22 @@ public class MovingTarget : MonoBehaviour
         }
     }
 
-    public void InitializeOrbit(float startRadius, float startHeight, float startAngle)
+    public void InitializeOrbit(float startRadius)
     {
         radius = startRadius;
-        initialHeight = startHeight;
-        angle = startAngle;
+
         targetSpeed = Random.Range(speedRange.x, speedRange.y);
         currentSpeed = targetSpeed;
-        heightWobbleSpeed += Random.Range(-0.2f, 0.2f);
+        
+        heightDifferenceSpeed += Random.Range(-0.2f, 0.2f);
     }
 
-    void Update()
-    {
-        HandleOrbitMovement();
-        HandleSpeedVariation();
-
-        movementHistory.Enqueue(new Pose(transform.position, transform.rotation));
-        HandleVisualMovement();
-    }
-
-    void HandleOrbitMovement()
+    private void HandleOrbitMovement()
     {
         angle += currentSpeed * Time.deltaTime;
         if (angle > 360f) angle -= 360f;
 
-        float newY = initialHeight + Mathf.Sin(Time.time * heightWobbleSpeed + radius) * heightWobbleAmount;
+        float newY = initialHeight + Mathf.Sin(Time.time * heightDifferenceSpeed + radius) * heightDifference;
         float rad = angle * Mathf.Deg2Rad;
         Vector3 newPos = new(Mathf.Cos(rad) * radius, newY, Mathf.Sin(rad) * radius);
 
@@ -119,7 +113,7 @@ public class MovingTarget : MonoBehaviour
         transform.LookAt(new Vector3(newPos.x - Mathf.Sin(rad), newPos.y, newPos.z + Mathf.Cos(rad)));
     }
 
-    void HandleSpeedVariation()
+    private void HandleSpeedVariation()
     {
         speedTimer += Time.deltaTime;
         if (speedTimer > speedChangeInterval)
@@ -131,7 +125,7 @@ public class MovingTarget : MonoBehaviour
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * 2.0f);
     }
 
-    void HandleVisualMovement()
+    private void HandleVisualMovement()
     {
         if (visualObject == null) return;
 
@@ -148,7 +142,7 @@ public class MovingTarget : MonoBehaviour
             targetPosition = historyPose.position;
             targetRotation = historyPose.rotation;
 
-            // Verwijder alle poses die al dicht genoeg zijn benaderd
+            // Verwijder alle poses die dicht genoeg zijn
             while (movementHistory.Count > 0 && Vector3.Distance(visualObject.transform.position, movementHistory.Peek().position) < 0.05f)
             {
                 movementHistory.Dequeue();

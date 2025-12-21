@@ -6,6 +6,7 @@ public class RightControllerBehaviour : MonoBehaviour
 {
     [Header("Instellingen")]
     public float rayDistance = 100f;
+    public string grabButton = "XRI_Right_Grip";
 
     private MonoBehaviour lastHoveredObject;
     private LineRenderer lineRenderer;
@@ -37,7 +38,6 @@ public class RightControllerBehaviour : MonoBehaviour
 
             endPoint = hit.point;
 
-            // Check 1: Is het een Echte Bal?
             MovingTarget target = hit.collider.GetComponent<MovingTarget>();
             if (target != null)
             {
@@ -45,7 +45,6 @@ public class RightControllerBehaviour : MonoBehaviour
                 break;
             }
 
-            // Check 2: Is het een Ghost?
             GhostBall ghost = hit.collider.GetComponent<GhostBall>();
             if (ghost != null)
             {
@@ -53,15 +52,15 @@ public class RightControllerBehaviour : MonoBehaviour
                 break;
             }
 
-            // Iets anders geraakt (muur etc)
             break;
         }
 
         lineRenderer.SetPosition(1, endPoint);
         HandleHover(currentFoundObj);
+        CheckSelection(currentFoundObj);
     }
 
-    void HandleHover(MonoBehaviour currentObj)
+    private void HandleHover(MonoBehaviour currentObj)
     {
         // Is er iets veranderd?
         if (lastHoveredObject != currentObj)
@@ -81,6 +80,7 @@ public class RightControllerBehaviour : MonoBehaviour
 
                 lineRenderer.startColor = Color.yellow;
             }
+            // Geen nieuwe geselecteerd
             else
             {
                 lineRenderer.startColor = Color.red;
@@ -88,9 +88,11 @@ public class RightControllerBehaviour : MonoBehaviour
 
             lastHoveredObject = currentObj;
         }
+    }
 
-        // Check of de bal moet geselecteerd worden
-        if (Input.GetAxis("XRI_Right_Grip") > .5f)
+    private void CheckSelection(MonoBehaviour currentObj)
+    {
+        if (Input.GetAxis(grabButton) > .5f)
         {
             if (currentObj is MovingTarget target) target.SelectTarget();
             else if (currentObj is GhostBall ghost) ghost.GetRealBall().SelectTarget();

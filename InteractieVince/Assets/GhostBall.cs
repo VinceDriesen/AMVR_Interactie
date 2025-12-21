@@ -5,14 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(Renderer))]
 public class GhostBall : MonoBehaviour
 {
+    [Header("Visuals")]
+    public Color ghostColor = new(1, 1, 1, 0.5f);
+    public Color highlightColor = Color.cyan;
+
     private MovingTarget linkedRealBall;
-    private LineRenderer lineRenderer;
-    private Renderer myRenderer;
     private bool isHovering = false;
 
-    [Header("Visuals")]
-    public Color ghostColor = new Color(1, 1, 1, 0.5f);
-    public Color highlightColor = Color.cyan;
+    private LineRenderer lineRenderer;
+    private Renderer myRenderer;
 
     void Awake()
     {
@@ -27,26 +28,20 @@ public class GhostBall : MonoBehaviour
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
     }
 
+    void Update()
+    {
+        if (isHovering)
+        {
+            UpdateLine();
+        }
+    }
+
     public void Setup(MovingTarget realBall)
     {
         linkedRealBall = realBall;
         myRenderer.material.color = ghostColor;
 
         realBall.RegisterGhost(this);
-    }
-
-    void Update()
-    {
-        if (linkedRealBall == null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        if (isHovering)
-        {
-            UpdateLine();
-        }
     }
 
     public void SetHover(bool active)
@@ -65,7 +60,8 @@ public class GhostBall : MonoBehaviour
             if (linkedRealBall != null) linkedRealBall.SetHover(false);
         }
     }
-    void UpdateLine()
+
+    private void UpdateLine()
     {
         if (linkedRealBall != null)
         {

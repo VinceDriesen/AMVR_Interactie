@@ -17,7 +17,7 @@ public class GameTest : MonoBehaviour
     public TMP_Text countdownText;
     public Slider slider;
 
-    private List<VisualBallLink> allBalls = new List<VisualBallLink>();
+    private List<VisualBallLink> allBalls = new();
     private VisualBallLink currentActiveTarget;
     private float startTime;
 
@@ -39,7 +39,7 @@ public class GameTest : MonoBehaviour
         VisualBallLink.OnBallCaptured -= HandleBallCaptured;
     }
 
-    private void Start()
+    void Start()
     {
         if (resultText != null) resultText.text = "Druk op start!";
         if (countdownText != null) countdownText.text = "";
@@ -61,13 +61,13 @@ public class GameTest : MonoBehaviour
         }
     }
 
-    IEnumerator RunTestSequence()
+    private IEnumerator RunTestSequence()
     {
         isSequenceActive = true;
 
         totalRondesCount = (slider != null) ? Mathf.Max(1, (int)slider.value) : 1;
 
-        Debug.Log($"Start reeks van {totalRondesCount} rondes.");
+        Debug.Log($"Start reeks van {totalRondesCount} rondes. UUID: {System.Guid.NewGuid()}");
 
         for (int i = 0; i < totalRondesCount; i++)
         {
@@ -127,7 +127,7 @@ public class GameTest : MonoBehaviour
         isSequenceActive = false;
     }
 
-    void HandleBallCaptured(VisualBallLink capturedBall)
+    public void HandleBallCaptured(VisualBallLink capturedBall)
     {
         if (!isRoundActive) return;
 
@@ -159,7 +159,7 @@ public class GameTest : MonoBehaviour
         }
     }
 
-    void RefreshBallList()
+    private void RefreshBallList()
     {
         allBalls = FindObjectsOfType<VisualBallLink>()
             .Where(b => b != null && b.gameObject.activeInHierarchy)

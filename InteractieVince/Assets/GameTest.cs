@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ public class GameTest : MonoBehaviour
     public TMP_Text countdownText;
     public Slider slider;
 
-    private List<MovingTarget> allBalls = new List<MovingTarget>();
+    private List<MovingTarget> allBalls = new();
     private MovingTarget currentActiveTarget;
     private float startTime;
 
@@ -39,7 +40,7 @@ public class GameTest : MonoBehaviour
         MovingTarget.OnBallCaptured -= HandleBallCaptured;
     }
 
-    private void Start()
+    void Start()
     {
         if (resultText != null) resultText.text = "Druk op start!";
         if (countdownText != null) countdownText.text = "";
@@ -61,13 +62,13 @@ public class GameTest : MonoBehaviour
         }
     }
 
-    IEnumerator RunTestSequence()
+    private IEnumerator RunTestSequence()
     {
         isSequenceActive = true;
 
         totalRondesCount = (slider != null) ? Mathf.Max(1, (int)slider.value) : 1;
 
-        Debug.Log($"Start reeks van {totalRondesCount} rondes.");
+        Debug.Log($"Start reeks van {totalRondesCount} rondes. UUID: {Guid.NewGuid()}");
 
         for (int i = 0; i < totalRondesCount; i++)
         {
@@ -105,7 +106,7 @@ public class GameTest : MonoBehaviour
                 countdownText.text = $"{rondeInfo}\n<size=150%><color=yellow>ZOEK!</color></size>";
             }
 
-            int randomIndex = Random.Range(0, allBalls.Count);
+            int randomIndex = UnityEngine.Random.Range(0, allBalls.Count);
             currentActiveTarget = allBalls[randomIndex];
 
             if (currentActiveTarget != null)
@@ -127,7 +128,7 @@ public class GameTest : MonoBehaviour
         isSequenceActive = false;
     }
 
-    void HandleBallCaptured(MovingTarget capturedBall)
+    public void HandleBallCaptured(MovingTarget capturedBall)
     {
         if (!isRoundActive) return;
 
@@ -166,14 +167,14 @@ public class GameTest : MonoBehaviour
         }
     }
 
-    void RemoveGhostBalls()
+    private void RemoveGhostBalls()
     {
         var allGhostBalls = FindObjectsOfType<GhostBall>();
         foreach(var ghostBall in allGhostBalls)
             Destroy(ghostBall.gameObject);
     }
 
-    void RefreshBallList()
+    private void RefreshBallList()
     {
         allBalls = FindObjectsOfType<MovingTarget>()
             .Where(b => b != null && b.gameObject.activeInHierarchy)
